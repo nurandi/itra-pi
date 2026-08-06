@@ -377,8 +377,10 @@ function runSimulation(currentResult, today) {
     
     let improveScore = null;
     let improveScenario = null;
+    let improveLog = null;
     let targetScore = null;
     let targetScenario = null;
+    let targetLog = null;
     
     const plotX = [];
     const scenY = {1:[], 2:[], 3:[], 4:[], 5:[]};
@@ -397,14 +399,35 @@ function runSimulation(currentResult, today) {
         if (improveScore === null && res.pi > currentResult.pi) {
             improveScore = s;
             improveScenario = res.bestScenario;
+            improveLog = res.bestScenarioLog;
         }
         if (targetPi && targetScore === null && res.pi >= targetPi) {
             targetScore = s;
             targetScenario = res.bestScenario;
+            targetLog = res.bestScenarioLog;
         }
     }
     
     let simText = "";
+    
+    function buildSimTable(log) {
+        let tableHtml = `<div class="top-races-table" style="overflow-x: auto; margin-top: 1rem;">
+            <table>
+                <tr><th>Date</th><th>Name</th><th>W. Score</th><th>Weight</th><th>Final Score</th></tr>`;
+        log.forEach((r) => {
+            tableHtml += `
+                <tr>
+                    <td>${r.date}</td>
+                    <td>${r.name}</td>
+                    <td>${r.wScore.toFixed(1)}</td>
+                    <td>${r.eWeight.toFixed(2)}</td>
+                    <td style="font-weight: bold; color: #fff;">${r.wxScore.toFixed(1)}</td>
+                </tr>
+            `;
+        });
+        tableHtml += `</table></div>`;
+        return tableHtml;
+    }
     
     if (improveScore) {
         simText += `
@@ -417,7 +440,15 @@ function runSimulation(currentResult, today) {
                 <div class="big-number">${improveScore}</div>
                 <div class="scenario-badge">Uses Scenario ${improveScenario}</div>
             </div>
-        </div>`;
+        </div>
+        <details class="scenario-details-item" style="margin-bottom: 1.5rem; margin-top: -0.5rem;">
+            <summary style="background: var(--card-surface); padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
+                <span class="scenario-title" style="font-size: 0.8rem;">View Race Breakdown (Scenario ${improveScenario})</span>
+            </summary>
+            <div class="scenario-content" style="padding: 0;">
+                ${buildSimTable(improveLog)}
+            </div>
+        </details>`;
     } else {
         simText += `
         <div class="sim-box error">
@@ -440,7 +471,15 @@ function runSimulation(currentResult, today) {
                     <div class="big-number">${targetScore}</div>
                     <div class="scenario-badge">Uses Scenario ${targetScenario}</div>
                 </div>
-            </div>`;
+            </div>
+            <details class="scenario-details-item" style="margin-bottom: 1.5rem; margin-top: -0.5rem;">
+                <summary style="background: var(--card-surface); padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
+                    <span class="scenario-title" style="font-size: 0.8rem;">View Race Breakdown (Scenario ${targetScenario})</span>
+                </summary>
+                <div class="scenario-content" style="padding: 0;">
+                    ${buildSimTable(targetLog)}
+                </div>
+            </details>`;
         } else {
             simText += `
             <div class="sim-box error">
