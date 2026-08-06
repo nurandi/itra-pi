@@ -604,27 +604,39 @@ function getPiLevel(pi, gender) {
 
 // PDF Download Logic
 downloadPdfBtn.addEventListener('click', () => {
-    downloadPdfBtn.textContent = '⏳ Generating...';
-    downloadPdfBtn.disabled = true;
+    if (typeof html2pdf === 'undefined') {
+        window.print();
+        return;
+    }
     
-    const element = document.getElementById('pdf-content');
-    const opt = {
-        margin:       [10, 10, 10, 10],
-        filename:     `ITRA_PI_Report_${new Date().toISOString().split('T')[0]}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#09090b' }, // Match body background
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-    
-    html2pdf().set(opt).from(element).save().then(() => {
+    try {
+        downloadPdfBtn.textContent = '⏳ Generating...';
+        downloadPdfBtn.disabled = true;
+        
+        const element = document.getElementById('pdf-content');
+        const opt = {
+            margin:       [10, 10, 10, 10],
+            filename:     `ITRA_PI_Report_${new Date().toISOString().split('T')[0]}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#09090b' },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        
+        html2pdf().set(opt).from(element).save().then(() => {
+            downloadPdfBtn.textContent = '📄 Download PDF Report';
+            downloadPdfBtn.disabled = false;
+        }).catch(err => {
+            console.error("PDF generation failed:", err);
+            downloadPdfBtn.textContent = '📄 Download PDF Report';
+            downloadPdfBtn.disabled = false;
+            alert("Failed to generate PDF. Check console for details.");
+        });
+    } catch (err) {
+        console.error("PDF sync error:", err);
         downloadPdfBtn.textContent = '📄 Download PDF Report';
         downloadPdfBtn.disabled = false;
-    }).catch(err => {
-        console.error("PDF generation failed:", err);
-        downloadPdfBtn.textContent = '📄 Download PDF Report';
-        downloadPdfBtn.disabled = false;
-        alert("Failed to generate PDF. Check console for details.");
-    });
+        window.print(); // Fallback
+    }
 });
 
 // Initialize
