@@ -435,24 +435,21 @@ function runSimulation(currentResult, today) {
     
     if (improveScore) {
         simText += `
-        <div class="sim-box success">
-            <div class="sim-box-info">
-                <h4>To Improve Current PI</h4>
-                <p>Increase your PI by at least +1</p>
+        <div class="sim-box success" style="cursor: pointer; flex-direction: column; align-items: stretch;" onclick="const t = this.querySelector('.sim-table'); t.style.display = t.style.display === 'none' ? 'block' : 'none';">
+            <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                <div class="sim-box-info">
+                    <h4>To Improve Current PI</h4>
+                    <p>Increase your PI by at least +1 <span style="opacity: 0.6; font-size: 0.75rem;">(Click to view details)</span></p>
+                </div>
+                <div class="sim-box-score">
+                    <div class="big-number">${improveScore}</div>
+                    <div class="scenario-badge">Uses Scenario ${improveScenario}</div>
+                </div>
             </div>
-            <div class="sim-box-score">
-                <div class="big-number">${improveScore}</div>
-                <div class="scenario-badge">Uses Scenario ${improveScenario}</div>
-            </div>
-        </div>
-        <details class="scenario-details-item" style="margin-bottom: 1.5rem; margin-top: -0.5rem;">
-            <summary style="background: var(--card-surface); padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
-                <span class="scenario-title" style="font-size: 0.8rem;">View Race Breakdown (Scenario ${improveScenario})</span>
-            </summary>
-            <div class="scenario-content" style="padding: 0;">
+            <div class="sim-table" style="display: none; width: 100%; border-top: 1px dashed var(--border-color); margin-top: 1rem; padding-top: 0.5rem;">
                 ${buildSimTable(improveLog)}
             </div>
-        </details>`;
+        </div>`;
     } else {
         simText += `
         <div class="sim-box error">
@@ -466,24 +463,21 @@ function runSimulation(currentResult, today) {
     if (targetPi) {
         if (targetScore) {
             simText += `
-            <div class="sim-box">
-                <div class="sim-box-info">
-                    <h4>To Reach Target PI (${targetPi})</h4>
-                    <p>Minimum score required in your next race</p>
+            <div class="sim-box" style="cursor: pointer; flex-direction: column; align-items: stretch;" onclick="const t = this.querySelector('.sim-table'); t.style.display = t.style.display === 'none' ? 'block' : 'none';">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                    <div class="sim-box-info">
+                        <h4>To Reach Target PI (${targetPi})</h4>
+                        <p>Minimum score required in your next race <span style="opacity: 0.6; font-size: 0.75rem;">(Click to view details)</span></p>
+                    </div>
+                    <div class="sim-box-score">
+                        <div class="big-number">${targetScore}</div>
+                        <div class="scenario-badge">Uses Scenario ${targetScenario}</div>
+                    </div>
                 </div>
-                <div class="sim-box-score">
-                    <div class="big-number">${targetScore}</div>
-                    <div class="scenario-badge">Uses Scenario ${targetScenario}</div>
-                </div>
-            </div>
-            <details class="scenario-details-item" style="margin-bottom: 1.5rem; margin-top: -0.5rem;">
-                <summary style="background: var(--card-surface); padding: 0.5rem 1rem; border-radius: 6px; border: 1px solid var(--border-color);">
-                    <span class="scenario-title" style="font-size: 0.8rem;">View Race Breakdown (Scenario ${targetScenario})</span>
-                </summary>
-                <div class="scenario-content" style="padding: 0;">
+                <div class="sim-table" style="display: none; width: 100%; border-top: 1px dashed var(--border-color); margin-top: 1rem; padding-top: 0.5rem;">
                     ${buildSimTable(targetLog)}
                 </div>
-            </details>`;
+            </div>`;
         } else {
             simText += `
             <div class="sim-box error">
