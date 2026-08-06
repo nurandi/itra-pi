@@ -604,12 +604,48 @@ function getPiLevel(pi, gender) {
 
 // PDF Download Logic
 downloadPdfBtn.addEventListener('click', () => {
+    // Prompt for name
+    const userName = prompt("Enter your name for the report (optional):");
+    if (userName === null) return; // User clicked Cancel
+    
+    let nameText = userName.trim();
+    
+    // Create temporary print header
+    const nameHeader = document.createElement('h1');
+    nameHeader.className = 'print-only';
+    nameHeader.style.textAlign = 'center';
+    nameHeader.style.marginBottom = '2rem';
+    nameHeader.style.borderBottom = '3px solid #000';
+    nameHeader.style.paddingBottom = '1rem';
+    nameHeader.style.fontSize = '2.2rem';
+    nameHeader.style.fontWeight = '800';
+    
+    if (nameText) {
+        nameHeader.textContent = `${nameText}'s ITRA Performance Report`;
+    } else {
+        nameHeader.textContent = `ITRA Performance Report`;
+    }
+    
+    // Insert at the very top
+    const container = document.querySelector('.container');
+    container.insertBefore(nameHeader, container.firstChild);
+    
+    // Temporarily change document title so Native Print uses it as the filename
+    const originalTitle = document.title;
+    const dateStr = new Date().toISOString().split('T')[0];
+    const safeName = nameText ? '_' + nameText.replace(/[^a-z0-9]/gi, '_') : '';
+    document.title = `ITRA_PI_Report${safeName}_${dateStr}`;
+    
     // Open all scenario accordions so they are visible in the PDF
     document.querySelectorAll('details').forEach(el => el.setAttribute('open', ''));
     
-    // Slight delay to allow DOM to render open accordions before triggering print dialog
+    // Slight delay to allow DOM to render before triggering print dialog
     setTimeout(() => {
         window.print();
+        
+        // Cleanup after print dialog closes
+        document.title = originalTitle;
+        nameHeader.remove();
     }, 150);
 });
 
