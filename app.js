@@ -291,8 +291,10 @@ targetPiInput.addEventListener('input', updateDashboard);
 function updateDashboard() {
     if (races.length === 0) {
         document.body.classList.add('empty-state');
+        clearDataBtn.parentElement.style.display = 'none';
     } else {
         document.body.classList.remove('empty-state');
+        clearDataBtn.parentElement.style.display = 'block';
     }
 
     const today = new Date();
