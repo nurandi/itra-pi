@@ -88,6 +88,28 @@ main.dashboard-grid {
     opacity: 0;
 }
 
+/* Footer */
+.app-footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+.app-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+}
+.app-footer a:hover {
+    text-decoration: underline;
+}
+.app-footer p {
+    margin-bottom: 0.4rem;
+}
+
 /* Empty State Layout */
 body.empty-state header {
     text-align: center;
@@ -674,8 +696,16 @@ tr:last-child td {
     .sim-box {
         border-left: 6px solid #000 !important;
     }
-    .stat-value, .stat-label, th, td, .scenario-title, .scenario-score, h4, p, .big-number, .scenario-badge, #current-pi-value {
+    .stat-value, .stat-label, th, td, .scenario-title, .scenario-score, h4, p, .big-number, .scenario-badge, #current-pi-value, .app-footer p {
         color: #000 !important;
+    }
+    .app-footer a {
+        color: #444 !important;
+        text-decoration: underline !important;
+    }
+    .app-footer {
+        border-top: 1px solid #ccc !important;
+        margin-top: 2rem !important;
     }
     table {
         border-collapse: collapse !important;
