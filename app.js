@@ -220,11 +220,11 @@ function renderRaceList() {
             </div>
             <div class="input-group" style="flex: 2;">
                 <label>Race Name</label>
-                <input type="text" value="${race.name}" onchange="updateRace('${race.id}', 'name', this.value)">
+                <input type="text" value="${race.name}" placeholder="e.g. UTMB 100K" onchange="updateRace('${race.id}', 'name', this.value)">
             </div>
             <div class="input-group">
                 <label>Score</label>
-                <input type="number" value="${race.score}" onchange="updateRace('${race.id}', 'score', this.value)">
+                <input type="number" value="${race.score}" placeholder="0" onchange="updateRace('${race.id}', 'score', this.value)">
             </div>
             <button class="btn-remove" onclick="removeRace('${race.id}')">✕</button>
         `;
@@ -247,15 +247,14 @@ window.removeRace = (id) => {
 }
 
 addRaceBtn.addEventListener('click', () => {
-    const today = new Date().toISOString().split('T')[0];
-    races.unshift({
+    races.push({
         id: Date.now().toString(),
-        date: today,
-        name: 'New Race',
-        score: 400
+        date: '',
+        name: '',
+        score: ''
     });
-    renderRaceList();
     saveRaces();
+    renderRaceList();
 });
 
 clearDataBtn.addEventListener('click', () => {
