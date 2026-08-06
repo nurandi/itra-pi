@@ -388,7 +388,7 @@ function runSimulation(currentResult, today) {
     
     for (let s = 300; s <= 800; s+=5) {
         plotX.push(s);
-        const testRaces = [...races, { date: newDate, name: "Simulation", score: s }];
+        const testRaces = [...races, { date: newDate, name: "Next race (simulation)", score: s }];
         const res = calculateItraPiCore(testRaces, today);
         
         maxY.push(res.maxAverage);
@@ -415,13 +415,17 @@ function runSimulation(currentResult, today) {
             <table>
                 <tr><th>Date</th><th>Name</th><th>W. Score</th><th>Weight</th><th>Final Score</th></tr>`;
         log.forEach((r) => {
+            const isSim = r.name === "Next race (simulation)";
+            const rowStyle = isSim ? 'color: var(--accent); font-weight: 500;' : '';
+            const finalColor = isSim ? 'var(--accent)' : '#fff';
+            
             tableHtml += `
-                <tr>
+                <tr style="${rowStyle}">
                     <td>${r.date}</td>
                     <td>${r.name}</td>
                     <td>${r.wScore.toFixed(1)}</td>
                     <td>${r.eWeight.toFixed(2)}</td>
-                    <td style="font-weight: bold; color: #fff;">${r.wxScore.toFixed(1)}</td>
+                    <td style="font-weight: bold; color: ${finalColor};">${r.wxScore.toFixed(1)}</td>
                 </tr>
             `;
         });
