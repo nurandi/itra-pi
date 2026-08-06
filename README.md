@@ -1,4 +1,4 @@
-# ITRA Performance Index (PI) Calculator
+# ITRA Performance Index (PI) Calculator & Simulator
 
 An unofficial, client-side web application designed to help trail runners estimate and simulate their [ITRA Performance Index](https://itra.run/FAQ/PerformanceIndex). 
 
