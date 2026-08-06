@@ -590,6 +590,11 @@ tr:last-child td {
     }
 }
 
+/* Print Specific Utility Classes */
+.print-only {
+    display: none;
+}
+
 /* Clean Print Styles for PDF Export */
 @media print {
     body, .main-column, .card, .scenario-content {
@@ -598,8 +603,12 @@ tr:last-child td {
     }
     
     /* Hide top page header, side toggle, download button, and form controls */
-    body > .container > header, .sidebar-toggle-col, #download-pdf-btn, .toggle-group, .paste-area, .or-divider, #clear-data-btn, #add-race-btn, .btn-remove {
+    body > .container > header, .sidebar-toggle-col, #download-pdf-btn, .toggle-group, .paste-area, .or-divider, #clear-data-btn, #add-race-btn, .btn-remove, .screen-only, .import-instructions {
         display: none !important;
+    }
+    
+    .print-only {
+        display: block !important;
     }
     
     /* Stack layout instead of side-by-side flex */
