@@ -14,7 +14,7 @@
     <div class="container">
         <header>
             <h1>ITRA PI Calculator & Simulator</h1>
-            <p>Calculate and simulate your ITRA score. <span style="opacity: 0.7; font-size: 0.9em; margin-left: 0.25rem;">(Unofficial Tool)</span></p>
+            <p>Calculate and simulate your ITRA score and performance index</p>
         </header>
 
         <main class="dashboard-grid">
@@ -23,7 +23,7 @@
                 <div class="sidebar-content-wrapper">
                     <section class="card input-section">
                         <h2>Race History</h2>
-                        <p class="import-instructions" style="margin-bottom: 0.75rem; color: var(--text-muted); font-size: 13px;">Copy your race results table from <a href="https://itra.run" target="_blank" style="color: var(--accent); font-weight: 500;">itra.run</a> (or try with <a href="sample-data.txt" target="_blank" style="color: var(--accent); font-weight: 500;">sample data</a>).</p>
+                        <p class="import-instructions" style="margin-bottom: 0.75rem; color: var(--text-muted); font-size: 13px;">Go to the <strong>Results tab</strong> on your <a href="https://itra.run" target="_blank" style="color: var(--accent); font-weight: 500;">itra.run</a> profile, <strong>select all</strong> the text on the page (Ctrl+A / Cmd+A), and copy-paste it below.</p>
                         
                         <div class="paste-area">
                             <textarea id="itra-paste-input" placeholder="Paste ITRA results table here..."></textarea>
@@ -35,11 +35,7 @@
                         
                         <div class="or-divider"><span>OR ADD MANUALLY</span></div>
                         
-                        <div class="print-only race-print-header">
-                            <div style="flex: 1; padding: 8px; border-right: 1px solid #ccc;">Date</div>
-                            <div style="flex: 2; padding: 8px; border-right: 1px solid #ccc;">Race Name</div>
-                            <div style="flex: 1; padding: 8px;">Score</div>
-                        </div>
+                        <div id="print-race-history"></div>
 
                         <div class="race-builder" id="race-list">
                             <!-- Dynamic race rows go here -->
@@ -61,13 +57,8 @@
                 <div id="pdf-content">
                     <section class="card results-section highlight-card">
                     <header class="card-header">
-                        <h2>Current PI Status</h2>
-                        <div class="toggle-group">
-                            <input type="radio" id="gender-men" name="gender" value="men" checked>
-                            <label for="gender-men">Men</label>
-                            <input type="radio" id="gender-women" name="gender" value="women">
-                            <label for="gender-women">Women</label>
-                        </div>
+                        <h2>Current Performance Index (PI) Status</h2>
+                        <div id="runner-info" class="athlete-details" style="display: none;"></div>
                     </header>
                     <div class="pi-display">
                         <div class="pi-circle">
@@ -131,6 +122,7 @@
         </main>
 
         <footer class="app-footer">
+            <p><strong>Privacy First:</strong> No data is sent to any server. All calculations are done locally in your browser.</p>
             <p><strong>Disclaimer:</strong> This is an unofficial tool made by a runner, for runners. ITRA® is a registered trademark of the International Trail Running Association.</p>
             <p>Calculations are based on the public methodology described on the <a href="https://itra.run/FAQ/PerformanceIndex" target="_blank">ITRA FAQ page</a>.</p>
             <p>For a detailed breakdown of how this math works, read my full explanation on <a href="https://www.threads.com/share/LU2-4pzqa/" target="_blank">Threads</a>.</p>

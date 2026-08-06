@@ -1,6 +1,11 @@
 // Data Models
 let races = [];
 let chartInstance = null;
+let runnerName = '';
+let runnerItraId = '';
+let runnerGender = '';
+let runnerAgeGroup = '';
+let runnerNationality = '';
 
 // ITRA Math Logic
 function getMonthsAgo(todayDate, raceDate) {
@@ -133,6 +138,7 @@ const targetPiInput = document.getElementById('target-pi-input');
 const simulationResultsEl = document.getElementById('simulation-results');
 const ctx = document.getElementById('simulationChart').getContext('2d');
 const dashboardGrid = document.querySelector('.dashboard-grid');
+const runnerInfoEl = document.getElementById('runner-info');
 
 // Parse logic
 function parseItraPaste(text) {
@@ -159,10 +165,21 @@ function parseItraPaste(text) {
     }
     
     function processChunk(chunk) {
+        let raceName = "Unknown Race";
+        if (chunk.length > 2) {
+            if (chunk[1].toLowerCase() === 'category' && chunk.length > 3) {
+                raceName = chunk[3];
+            } else {
+                raceName = chunk[2];
+            }
+        }
+        
         let race = {
             id: Date.now() + Math.random().toString(),
             date: chunk[0],
-            name: chunk.length > 2 ? chunk[2] : "Unknown Race",
+            name: raceName,
+            dist: '-',
+            time: '-',
             score: 0
         };
         
@@ -171,10 +188,28 @@ function parseItraPaste(text) {
         }
         
         let timeIndex = chunk.findIndex(l => /\b\d{1,3}:\d{2}(:\d{2})?\b/.test(l));
-        if (timeIndex !== -1 && timeIndex + 1 < chunk.length) {
-            let scoreMatch = chunk[timeIndex + 1].match(/(?:^|\s)(\d+)/);
-            if (scoreMatch) race.score = parseInt(scoreMatch[1]);
-        } else {
+        let foundScore = false;
+        
+        if (timeIndex !== -1) {
+            race.time = chunk[timeIndex].match(/\b\d{1,3}:\d{2}(:\d{2})?\b/)[0];
+            for (let k = 1; k <= 3; k++) {
+                if (timeIndex + k < chunk.length) {
+                    let text = chunk[timeIndex + k];
+                    if (text.toLowerCase().includes('race score')) continue;
+                    let scoreMatch = text.match(/(?:^|\s)(\d+)/);
+                    if (scoreMatch) {
+                        let s = parseInt(scoreMatch[1]);
+                        if (s > 100 && s < 2000) {
+                            race.score = s;
+                            foundScore = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (!foundScore) {
             for (let j = chunk.length - 1; j >= 0; j--) {
                 let lowerLine = chunk[j].toLowerCase();
                 if (lowerLine.includes(':') || lowerLine.match(/\d+\s*(m|km)\b/i) || lowerLine.includes('point') || lowerLine.match(/\b\d{4}-\d{2}-\d{2}\b/)) continue;
@@ -189,6 +224,12 @@ function parseItraPaste(text) {
                 }
             }
         }
+        
+        let distMatch = chunk.find(l => /\d+(?:\.\d+)?\s*km/i.test(l));
+        if (distMatch) {
+            race.dist = distMatch.match(/(\d+(?:\.\d+)?)\s*km/i)[1] + ' km';
+        }
+        
         return race;
     }
     
@@ -197,11 +238,27 @@ function parseItraPaste(text) {
 
 function saveRaces() {
     localStorage.setItem('itraRaces', JSON.stringify(races));
+    localStorage.setItem('runnerName', runnerName);
+    localStorage.setItem('runnerItraId', runnerItraId);
+    localStorage.setItem('runnerGender', runnerGender);
+    localStorage.setItem('runnerAgeGroup', runnerAgeGroup);
+    localStorage.setItem('runnerNationality', runnerNationality);
     updateDashboard();
 }
 
 function loadRaces() {
     const saved = localStorage.getItem('itraRaces');
+    runnerName = localStorage.getItem('runnerName') || '';
+    runnerItraId = localStorage.getItem('runnerItraId') || '';
+    runnerGender = localStorage.getItem('runnerGender') || '';
+    if (runnerGender.toLowerCase().includes('female') || runnerGender.toLowerCase().includes('women')) {
+        currentGender = 'women';
+    } else {
+        currentGender = 'men';
+    }
+    
+    runnerAgeGroup = localStorage.getItem('runnerAgeGroup') || '';
+    runnerNationality = localStorage.getItem('runnerNationality') || '';
     if (saved) {
         races = JSON.parse(saved);
         renderRaceList();
@@ -261,6 +318,11 @@ addRaceBtn.addEventListener('click', () => {
 clearDataBtn.addEventListener('click', () => {
     if (confirm("Are you sure you want to clear all your imported races?")) {
         races = [];
+        runnerName = '';
+        runnerItraId = '';
+        runnerGender = '';
+        runnerAgeGroup = '';
+        runnerNationality = '';
         saveRaces();
         renderRaceList();
         targetPiInput.value = '';
@@ -273,6 +335,29 @@ pasteInput.addEventListener('input', (e) => {
         const parsed = parseItraPaste(text);
         if (parsed.length > 0) {
             races = parsed;
+            
+            const itraIdMatch = text.match(/(?:^|\n)([^\n]*?)\n\s*ITRA ID:\s*(ITRA-\d+)/i);
+            if (itraIdMatch) {
+                runnerName = itraIdMatch[1].trim();
+                runnerItraId = itraIdMatch[2].toUpperCase();
+            }
+            
+            const genderMatch = text.match(/Gender:\s*([^\n]+)/i);
+            if (genderMatch) {
+                runnerGender = genderMatch[1].trim();
+                if (runnerGender.toLowerCase().includes('female') || runnerGender.toLowerCase().includes('women')) {
+                    currentGender = 'women';
+                } else {
+                    currentGender = 'men';
+                }
+            }
+            
+            const ageMatch = text.match(/Age Category:\s*([^\n]+)/i);
+            if (ageMatch) runnerAgeGroup = ageMatch[1].trim();
+            
+            const natMatch = text.match(/(?:Nationality|Country):\s*([^\n]+)/i);
+            if (natMatch) runnerNationality = natMatch[1].trim();
+            
             renderRaceList();
             saveRaces();
             e.target.value = ''; 
@@ -296,6 +381,62 @@ function updateDashboard() {
         document.body.classList.remove('empty-state');
         clearDataBtn.parentElement.style.display = 'block';
     }
+    
+    if (runnerName || runnerItraId) {
+        runnerInfoEl.style.display = 'flex';
+        let html = '';
+        
+        let tags = [];
+        if (runnerName) tags.push(runnerName);
+        if (runnerItraId) tags.push(runnerItraId);
+        if (runnerAgeGroup) tags.push(runnerAgeGroup);
+        if (runnerNationality) tags.push(runnerNationality);
+        
+        if (tags.length > 0) {
+            let tagsHtml = tags.map((t, idx) => {
+                let isName = (idx === 0 && runnerName);
+                return `<span class="athlete-tag ${isName ? 'athlete-name-tag' : ''}">${t}</span>`;
+            }).join('');
+            html += `<div class="athlete-tags">${tagsHtml}</div>`;
+        }
+        
+        runnerInfoEl.innerHTML = html;
+    } else {
+        runnerInfoEl.style.display = 'none';
+        runnerInfoEl.innerHTML = '';
+    }
+    
+    // Generate simple table layout for PDF print
+    let printHtml = `
+    <table class="print-only" style="width: 100%; margin-top: 1rem; font-size: 0.95rem; border-collapse: collapse;">
+        <thead>
+            <tr style="background: #f0f0f0;">
+                <th style="text-align: left; padding: 8px; border: 1px solid #ccc;">Date</th>
+                <th style="text-align: left; padding: 8px; border: 1px solid #ccc;">Race Name</th>
+                <th style="text-align: right; padding: 8px; border: 1px solid #ccc;">Distance</th>
+                <th style="text-align: right; padding: 8px; border: 1px solid #ccc;">Time</th>
+                <th style="text-align: right; padding: 8px; border: 1px solid #ccc;">Score</th>
+            </tr>
+        </thead>
+        <tbody>
+    `;
+    if (races.length === 0) {
+        printHtml += `<tr><td colspan="5" style="text-align: center; padding: 8px; border: 1px solid #ccc;">No races recorded</td></tr>`;
+    } else {
+        races.forEach(r => {
+            printHtml += `
+            <tr>
+                <td style="padding: 8px; border: 1px solid #ccc;">${r.date}</td>
+                <td style="padding: 8px; border: 1px solid #ccc;">${r.name}</td>
+                <td style="text-align: right; padding: 8px; border: 1px solid #ccc;">${r.dist || '-'}</td>
+                <td style="text-align: right; padding: 8px; border: 1px solid #ccc;">${r.time || '-'}</td>
+                <td style="text-align: right; padding: 8px; border: 1px solid #ccc; font-weight: bold;">${r.score}</td>
+            </tr>`;
+        });
+    }
+    printHtml += `</tbody></table>`;
+    const printContainer = document.getElementById('print-race-history');
+    if (printContainer) printContainer.innerHTML = printHtml;
 
     const today = new Date();
     const result = calculateItraPiCore(races, today);
@@ -388,7 +529,10 @@ function runSimulation(currentResult, today) {
     const scenY = {1:[], 2:[], 3:[], 4:[], 5:[]};
     const maxY = [];
     
-    for (let s = 300; s <= 800; s+=5) {
+    let minSim = Math.max(0, Math.floor((currentResult.pi - 150) / 50) * 50);
+    let maxSim = Math.min(1000, Math.ceil((Math.max(currentResult.pi, targetPi || 0) + 100) / 50) * 50);
+    
+    for (let s = minSim; s <= maxSim; s+=5) {
         plotX.push(s);
         const testRaces = [...races, { date: newDate, name: "Next race (simulation)", score: s }];
         const res = calculateItraPiCore(testRaces, today);
@@ -457,7 +601,7 @@ function runSimulation(currentResult, today) {
         <div class="sim-box error">
             <div class="sim-box-info">
                 <h4>Improve Current PI</h4>
-                <p>Cannot improve PI with a single race (up to 800).</p>
+                <p>Cannot improve PI with a single race (up to ${maxSim}).</p>
             </div>
         </div>`;
     }
@@ -485,7 +629,7 @@ function runSimulation(currentResult, today) {
             <div class="sim-box error">
                 <div class="sim-box-info">
                     <h4>Target PI (${targetPi})</h4>
-                    <p>Cannot reach PI ${targetPi} with a single new race (up to 800).</p>
+                    <p>Cannot reach PI ${targetPi} with a single new race (up to ${maxSim}).</p>
                 </div>
             </div>`;
         }
@@ -643,31 +787,47 @@ function getPiLevel(pi, gender) {
 
 // PDF Download Logic
 downloadPdfBtn.addEventListener('click', () => {
-    // Prompt for name
-    const userName = prompt("Enter your name for the report (optional):");
-    if (userName === null) return; // User clicked Cancel
-    
-    let nameText = userName.trim();
+    let nameText = runnerName;
+    if (!nameText) {
+        const userName = prompt("Enter your name for the report (optional):");
+        if (userName === null) return; // User clicked Cancel
+        nameText = userName.trim();
+    }
     
     // Create temporary print header
+    const printHeaderContainer = document.createElement('div');
+    printHeaderContainer.className = 'print-only';
+    printHeaderContainer.style.textAlign = 'center';
+    printHeaderContainer.style.marginBottom = '2rem';
+    printHeaderContainer.style.borderBottom = '3px solid #000';
+    printHeaderContainer.style.paddingBottom = '1rem';
+    
     const nameHeader = document.createElement('h1');
-    nameHeader.className = 'print-only';
-    nameHeader.style.textAlign = 'center';
-    nameHeader.style.marginBottom = '2rem';
-    nameHeader.style.borderBottom = '3px solid #000';
-    nameHeader.style.paddingBottom = '1rem';
     nameHeader.style.fontSize = '2.2rem';
     nameHeader.style.fontWeight = '800';
+    nameHeader.style.margin = '0 0 0.5rem 0';
+    nameHeader.textContent = nameText ? `${nameText}'s ITRA Performance Report` : `ITRA Performance Report`;
     
-    if (nameText) {
-        nameHeader.textContent = `${nameText}'s ITRA Performance Report`;
-    } else {
-        nameHeader.textContent = `ITRA Performance Report`;
+    printHeaderContainer.appendChild(nameHeader);
+    
+    // Add athlete details below name in PDF
+    let pdfTags = [];
+    if (runnerItraId) pdfTags.push(runnerItraId);
+    if (runnerAgeGroup) pdfTags.push(runnerAgeGroup);
+    if (runnerNationality) pdfTags.push(runnerNationality);
+    
+    if (pdfTags.length > 0) {
+        const detailsSub = document.createElement('div');
+        detailsSub.style.fontSize = '1.1rem';
+        detailsSub.style.color = '#444';
+        detailsSub.style.fontWeight = '600';
+        detailsSub.textContent = pdfTags.join('  |  ');
+        printHeaderContainer.appendChild(detailsSub);
     }
     
     // Insert at the very top
     const container = document.querySelector('.container');
-    container.insertBefore(nameHeader, container.firstChild);
+    container.insertBefore(printHeaderContainer, container.firstChild);
     
     // Temporarily change document title so Native Print uses it as the filename
     const originalTitle = document.title;
@@ -684,18 +844,12 @@ downloadPdfBtn.addEventListener('click', () => {
         
         // Cleanup after print dialog closes
         document.title = originalTitle;
-        nameHeader.remove();
+        printHeaderContainer.remove();
     }, 150);
 });
 
 // Initialize
 let currentGender = 'men';
-document.querySelectorAll('input[name="gender"]').forEach(input => {
-    input.addEventListener('change', (e) => {
-        currentGender = e.target.value;
-        updateDashboard();
-    });
-});
 
 loadRaces();
 updateDashboard();

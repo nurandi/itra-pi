@@ -172,15 +172,71 @@ body.empty-state .sidebar-toggle-col {
     main.dashboard-grid {
         flex-direction: column;
     }
-    .sidebar-column, .sidebar-content-wrapper {
-        width: 100%;
-    }
+    
     .sidebar-toggle-col {
-        display: none;
-    }
-    .dashboard-grid.sidebar-hidden .sidebar-column {
+        order: 1;
+        display: flex;
         width: 100%;
+        justify-content: center;
+        padding-top: 0;
+        margin-bottom: 1.5rem;
+    }
+    
+    .btn-toggle-side {
+        width: 100%;
+        height: 48px;
+        border-radius: 8px;
+        background-color: var(--card-surface);
+        border: 1px solid var(--border-color);
+        color: var(--text-main);
+    }
+    .btn-toggle-side::after {
+        content: ' Show Inputs & History';
+        margin-left: 8px;
+        font-family: 'DM Sans', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+    }
+    
+    .btn-toggle-side .icon {
+        transform: rotate(-90deg); /* Point down by default on mobile */
+    }
+
+    .sidebar-column {
+        order: 2;
+        width: 100%;
+        display: none;
+        margin-bottom: 1.5rem;
+    }
+    
+    .main-column {
+        order: 3;
+        width: 100%; /* Ensure it fits width */
+    }
+
+    .sidebar-content-wrapper {
+        width: 100%;
+    }
+    
+    /* Empty state overrides on mobile */
+    body.empty-state .sidebar-column {
+        display: block !important;
+        margin-bottom: 0;
+    }
+    
+    /* When toggled (sidebar-hidden class added on mobile means EXPANDED) */
+    .dashboard-grid.sidebar-hidden .sidebar-column {
+        display: block;
         opacity: 1;
+        width: 100%;
+    }
+    
+    .dashboard-grid.sidebar-hidden .btn-toggle-side .icon {
+        transform: rotate(90deg); /* Point up when expanded */
+    }
+    
+    .dashboard-grid.sidebar-hidden .btn-toggle-side::after {
+        content: ' Hide Inputs & History';
     }
 }
 
@@ -197,8 +253,9 @@ body.empty-state .sidebar-toggle-col {
 
 .card-header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
     border-bottom: 1px solid var(--border-color);
     margin-bottom: 1.25rem;
     padding-bottom: 0.75rem;
@@ -472,6 +529,43 @@ a:hover {
     color: var(--text-main);
 }
 
+/* Athlete Details */
+.athlete-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+}
+.athlete-name {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-main);
+    letter-spacing: -0.01em;
+}
+.athlete-tags {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.athlete-tag {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.athlete-name-tag {
+    background-color: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
 /* Tables */
 table {
     width: 100%;
@@ -610,10 +704,6 @@ tr:last-child td {
     .race-row {
         flex-direction: column;
     }
-    .pi-display {
-        flex-direction: column;
-        align-items: flex-start;
-    }
     .sim-box {
         flex-direction: column;
         align-items: flex-start;
@@ -644,7 +734,7 @@ tr:last-child td {
     }
     
     /* Hide top page header, side toggle, download button, and form controls */
-    body > .container > header, .sidebar-toggle-col, #download-pdf-btn, .toggle-group, .paste-area, .or-divider, #clear-data-btn, #add-race-btn, .btn-remove, .screen-only, .import-instructions {
+    body > .container > header, .sidebar-toggle-col, #download-pdf-btn, .toggle-group, .paste-area, .or-divider, #clear-data-btn, #add-race-btn, #race-list, .btn-remove, .screen-only, .import-instructions {
         display: none !important;
     }
     
@@ -659,11 +749,13 @@ tr:last-child td {
     }
     
     .sidebar-column {
+        display: block !important;
         order: 2 !important;
         width: 100% !important;
         opacity: 1 !important;
-        margin-top: 2rem !important;
+        margin-top: 0 !important;
         margin-bottom: 2rem !important;
+        page-break-before: always !important;
     }
     .sidebar-content-wrapper {
         width: 100% !important;
@@ -717,7 +809,9 @@ tr:last-child td {
     }
     .app-footer {
         border-top: 1px solid #ccc !important;
-        margin-top: 2rem !important;
+        margin-top: 0 !important;
+        padding-top: 1.5rem !important;
+        page-break-before: always !important;
     }
     table {
         border-collapse: collapse !important;
@@ -732,15 +826,6 @@ tr:last-child td {
     }
     details {
         margin-bottom: 1.5rem !important;
-    }
-    /* Race History Table Format */
-    .print-only.race-print-header {
-        display: flex !important;
-        font-weight: bold !important;
-        background: #f0f0f0 !important;
-        border: 1px solid #ccc !important;
-        border-bottom: 2px solid #000 !important;
-        margin-bottom: 0 !important;
     }
     .race-builder {
         display: flex !important;
