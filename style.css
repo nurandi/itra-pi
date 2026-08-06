@@ -596,9 +596,34 @@ tr:last-child td {
         background: #ffffff !important;
         color: #000000 !important;
     }
-    .sidebar-column, .sidebar-toggle-col, #download-pdf-btn, header, .toggle-group {
+    
+    /* Hide top page header, side toggle, download button, and form controls */
+    body > .container > header, .sidebar-toggle-col, #download-pdf-btn, .toggle-group, .paste-area, .or-divider, #clear-data-btn, #add-race-btn, .btn-remove {
         display: none !important;
     }
+    
+    /* Stack layout instead of side-by-side flex */
+    main.dashboard-grid {
+        display: block !important;
+    }
+    
+    .sidebar-column {
+        width: 100% !important;
+        opacity: 1 !important;
+        margin-bottom: 2rem !important;
+    }
+    .sidebar-content-wrapper {
+        width: 100% !important;
+    }
+    
+    /* Inputs should look like normal text in print */
+    input[type="date"], input[type="text"], input[type="number"] {
+        border: none !important;
+        background: transparent !important;
+        color: #000 !important;
+        padding: 0 !important;
+    }
+    
     .main-column {
         width: 100% !important;
         margin: 0 !important;
