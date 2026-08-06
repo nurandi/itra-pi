@@ -6,12 +6,14 @@ An unofficial, client-side web application designed to help trail runners estima
 
 ## 🚀 Features
 
-- **Automated Score Parsing:** Easily copy and paste your race history directly from the official ITRA website. The app parses your results instantly.
-- **Manual Entry:** Add custom or hypothetical races manually to see how they impact your overall score.
-- **Accurate Math:** Replicates the official ITRA decay formula, calculating maximum averages across multiple scenarios (Top 1 to Top 5 races) based on how old the races are (0-36 months).
-- **Target PI Simulation:** Enter a target PI, and the app will simulate exactly what score you need to achieve in your next race (assuming it was run today) to hit that target.
+- **Automated Profile Parsing:** Just hit `Ctrl+A` on your ITRA profile page and paste it into the app. It automatically extracts your Name, ITRA ID, Gender, Age Category, Nationality, and all race results (including Distance and Time).
+- **Accurate PI Levels:** Automatically detects your gender to accurately assign your official ITRA category (e.g., Elite, Advanced, Strong) based on your score.
+- **Dynamic Simulation:** Enter a target PI, and the app will simulate exactly what score you need in your next race (dynamically scaling up to 1000 for Elite athletes) to hit that target.
 - **Improvement Simulation:** Calculates the exact score required in your next race to improve your overall PI by at least +1.
-- **PDF Export:** Generate clean, printable A4 PDF reports of your current PI status, your historical races, and your calculation breakdown.
+- **Manual Entry:** Add custom or hypothetical races manually to see how they impact your overall score, with built-in score validation guardrails (0-1000).
+- **PDF Report Export:** Generate clean, paginated A4 PDF reports of your current PI status, detailed race history table, and calculation breakdown using native browser printing.
+- **Mobile Responsive:** Works beautifully on mobile devices, with intelligent collapsing panels and touch-friendly charts.
+- **Privacy First:** 100% of calculations are done in your browser. No data is sent to any server.
 
 ## 🛠️ How It Works
 
@@ -23,10 +25,10 @@ For a deep dive into the math behind the ITRA Performance Index, check out this 
 
 ## 🏃‍♂️ Usage
 
-1. Open your runner profile on [itra.run](https://itra.run).
-2. Highlight and copy your race results table.
+1. Open your runner profile on [itra.run](https://itra.run) and navigate to the **Results** tab.
+2. Select all the text on the page (`Ctrl+A` or `Cmd+A`) and copy it.
 3. Paste the text directly into the "Race History" input box in the app.
-4. Watch the dashboard instantly update with your Current PI, Level, and Simulation targets!
+4. Watch the dashboard instantly update with your custom Athlete Badges, Current PI, Level, and Simulation charts!
 
 ## 💻 Technology Stack
 
@@ -34,7 +36,6 @@ This is a 100% static, client-side web application. It requires zero installatio
 
 - **HTML5 / CSS3 / JavaScript (Vanilla)**
 - **Chart.js** (For rendering the simulation curves)
-- **jsPDF & html2canvas** (For PDF report generation)
 - Hosted automatically via **GitHub Pages**
 
 ## ⚠️ Disclaimer
