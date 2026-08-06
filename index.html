@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -55,11 +56,14 @@
                 <section class="card results-section highlight-card">
                     <header class="card-header">
                         <h2>Current PI Status</h2>
-                        <div class="toggle-group">
-                            <input type="radio" id="gender-men" name="gender" value="men" checked>
-                            <label for="gender-men">Men</label>
-                            <input type="radio" id="gender-women" name="gender" value="women">
-                            <label for="gender-women">Women</label>
+                        <div style="display: flex; gap: 1rem; align-items: center;">
+                            <button id="download-pdf-btn" class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border-color: var(--border-color); color: var(--text-muted); background: var(--card-bg);">📄 PDF Report</button>
+                            <div class="toggle-group">
+                                <input type="radio" id="gender-men" name="gender" value="men" checked>
+                                <label for="gender-men">Men</label>
+                                <input type="radio" id="gender-women" name="gender" value="women">
+                                <label for="gender-women">Women</label>
+                            </div>
                         </div>
                     </header>
                     <div class="pi-display">

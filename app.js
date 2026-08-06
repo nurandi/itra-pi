@@ -119,6 +119,7 @@ function calculateItraPiCore(inputRaces, today = new Date()) {
 
 
 // DOM Elements
+const downloadPdfBtn = document.getElementById('download-pdf-btn');
 const pasteInput = document.getElementById('itra-paste-input');
 const raceListEl = document.getElementById('race-list');
 const addRaceBtn = document.getElementById('add-race-btn');
@@ -600,6 +601,26 @@ function getPiLevel(pi, gender) {
     }
     return levels[levels.length - 1];
 }
+
+// PDF Download Logic
+downloadPdfBtn.addEventListener('click', () => {
+    downloadPdfBtn.textContent = '⏳ Generating...';
+    downloadPdfBtn.disabled = true;
+    
+    const element = document.querySelector('.main-column');
+    const opt = {
+        margin:       [10, 10, 10, 10],
+        filename:     `ITRA_PI_Report_${new Date().toISOString().split('T')[0]}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#09090b' }, // Match body background
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    
+    html2pdf().set(opt).from(element).save().then(() => {
+        downloadPdfBtn.textContent = '📄 PDF Report';
+        downloadPdfBtn.disabled = false;
+    });
+});
 
 // Initialize
 let currentGender = 'men';
