@@ -590,23 +590,63 @@ tr:last-child td {
     }
 }
 
-/* Print Styles for PDF Fallback */
+/* Clean Print Styles for PDF Export */
 @media print {
-    body {
-        background: #09090b !important;
-        color: #fff !important;
+    body, .main-column, .card, .scenario-content {
+        background: #ffffff !important;
+        color: #000000 !important;
     }
-    .sidebar-column, .sidebar-toggle-col, #download-pdf-btn, header {
+    .sidebar-column, .sidebar-toggle-col, #download-pdf-btn, header, .toggle-group {
         display: none !important;
     }
     .main-column {
         width: 100% !important;
         margin: 0 !important;
         max-width: none !important;
+        padding: 0 !important;
     }
     .card {
         page-break-inside: avoid;
-        border: 1px solid #3f3f46 !important;
-        background-color: #18181b !important;
+        border: none !important;
+        box-shadow: none !important;
+        margin-bottom: 2rem !important;
+        padding: 0 !important;
+    }
+    .card-header h2 {
+        border-bottom: 2px solid #000 !important;
+        padding-bottom: 0.5rem !important;
+        margin-bottom: 1.5rem !important;
+        color: #000 !important;
+    }
+    .pi-circle {
+        border: 2px solid #000 !important;
+        background: transparent !important;
+    }
+    .stat-box, .sim-box {
+        border: 1px solid #ccc !important;
+        background: transparent !important;
+    }
+    .sim-box {
+        border-left: 6px solid #000 !important;
+    }
+    .stat-value, .stat-label, th, td, .scenario-title, .scenario-score, h4, p, .big-number, .scenario-badge, #current-pi-value {
+        color: #000 !important;
+    }
+    table {
+        border-collapse: collapse !important;
+    }
+    th, td {
+        border: 1px solid #ccc !important;
+        padding: 8px !important;
+    }
+    .best-scenario-summary {
+        border-left: 4px solid #000 !important;
+        background: #f8f9fa !important;
+    }
+    details {
+        margin-bottom: 1.5rem !important;
+    }
+    .chart-container {
+        page-break-inside: avoid !important;
     }
 }

@@ -604,39 +604,13 @@ function getPiLevel(pi, gender) {
 
 // PDF Download Logic
 downloadPdfBtn.addEventListener('click', () => {
-    if (typeof html2pdf === 'undefined') {
-        window.print();
-        return;
-    }
+    // Open all scenario accordions so they are visible in the PDF
+    document.querySelectorAll('details').forEach(el => el.setAttribute('open', ''));
     
-    try {
-        downloadPdfBtn.textContent = '⏳ Generating...';
-        downloadPdfBtn.disabled = true;
-        
-        const element = document.getElementById('pdf-content');
-        const opt = {
-            margin:       [10, 10, 10, 10],
-            filename:     `ITRA_PI_Report_${new Date().toISOString().split('T')[0]}.pdf`,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#09090b' },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-        
-        html2pdf().set(opt).from(element).save().then(() => {
-            downloadPdfBtn.textContent = '📄 Download PDF Report';
-            downloadPdfBtn.disabled = false;
-        }).catch(err => {
-            console.error("PDF generation failed:", err);
-            downloadPdfBtn.textContent = '📄 Download PDF Report';
-            downloadPdfBtn.disabled = false;
-            alert("Failed to generate PDF. Check console for details.");
-        });
-    } catch (err) {
-        console.error("PDF sync error:", err);
-        downloadPdfBtn.textContent = '📄 Download PDF Report';
-        downloadPdfBtn.disabled = false;
-        window.print(); // Fallback
-    }
+    // Slight delay to allow DOM to render open accordions before triggering print dialog
+    setTimeout(() => {
+        window.print();
+    }, 150);
 });
 
 // Initialize
