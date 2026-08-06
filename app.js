@@ -272,7 +272,7 @@ pasteInput.addEventListener('input', (e) => {
     if (text.length > 20) {
         const parsed = parseItraPaste(text);
         if (parsed.length > 0) {
-            races = parsed;
+            races = [...races, ...parsed];
             renderRaceList();
             saveRaces();
             e.target.value = ''; 
