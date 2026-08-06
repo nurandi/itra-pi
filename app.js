@@ -435,11 +435,11 @@ function runSimulation(currentResult, today) {
     
     if (improveScore) {
         simText += `
-        <div class="sim-box success" style="cursor: pointer; flex-direction: column; align-items: stretch;" onclick="const t = this.querySelector('.sim-table'); t.style.display = t.style.display === 'none' ? 'block' : 'none';">
+        <div class="sim-box success clickable" style="flex-direction: column; align-items: stretch;" onclick="const t = this.querySelector('.sim-table'); t.style.display = t.style.display === 'none' ? 'block' : 'none';">
             <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                 <div class="sim-box-info">
                     <h4>To Improve Current PI</h4>
-                    <p>Increase your PI by at least +1 <span style="opacity: 0.6; font-size: 0.75rem;">(Click to view details)</span></p>
+                    <p>Increase your PI by at least +1</p>
                 </div>
                 <div class="sim-box-score">
                     <div class="big-number">${improveScore}</div>
@@ -463,11 +463,11 @@ function runSimulation(currentResult, today) {
     if (targetPi) {
         if (targetScore) {
             simText += `
-            <div class="sim-box" style="cursor: pointer; flex-direction: column; align-items: stretch;" onclick="const t = this.querySelector('.sim-table'); t.style.display = t.style.display === 'none' ? 'block' : 'none';">
+            <div class="sim-box clickable" style="flex-direction: column; align-items: stretch;" onclick="const t = this.querySelector('.sim-table'); t.style.display = t.style.display === 'none' ? 'block' : 'none';">
                 <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
                     <div class="sim-box-info">
                         <h4>To Reach Target PI (${targetPi})</h4>
-                        <p>Minimum score required in your next race <span style="opacity: 0.6; font-size: 0.75rem;">(Click to view details)</span></p>
+                        <p>Minimum score required in your next race</p>
                     </div>
                     <div class="sim-box-score">
                         <div class="big-number">${targetScore}</div>

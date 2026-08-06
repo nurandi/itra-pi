@@ -556,6 +556,14 @@ tr:last-child td {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.2s ease;
+}
+.sim-box.clickable {
+    cursor: pointer;
+}
+.sim-box.clickable:hover, .sim-box.clickable:focus-visible {
+    background-color: var(--bg-color);
+    outline: none;
 }
 .sim-box.success {
     border-left-color: var(--accent);
