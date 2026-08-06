@@ -1,5 +1,7 @@
 # ITRA Performance Index (PI) Calculator & Simulator
 
+[![pages-build-deployment](https://github.com/nurandi/itra-pi/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/nurandi/itra-pi/actions/workflows/pages/pages-build-deployment)
+
 An unofficial, client-side web application designed to help trail runners estimate and simulate their [ITRA Performance Index](https://itra.run/FAQ/PerformanceIndex). 
 
 **Live App:** [https://nurandi.github.io/itra-pi/](https://nurandi.github.io/itra-pi/)
