@@ -680,6 +680,41 @@ tr:last-child td {
     details {
         margin-bottom: 1.5rem !important;
     }
+    /* Race History Table Format */
+    .print-only.race-print-header {
+        display: flex !important;
+        font-weight: bold !important;
+        background: #f0f0f0 !important;
+        border: 1px solid #ccc !important;
+        border-bottom: 2px solid #000 !important;
+        margin-bottom: 0 !important;
+    }
+    .race-builder {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .race-row {
+        display: flex !important;
+        border-left: 1px solid #ccc !important;
+        border-right: 1px solid #ccc !important;
+        border-bottom: 1px solid #ccc !important;
+        margin-bottom: 0 !important;
+        padding: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+    }
+    .race-row .input-group {
+        padding: 8px !important;
+        border-right: 1px solid #ccc !important;
+        margin: 0 !important;
+    }
+    .race-row .input-group:last-of-type {
+        border-right: none !important;
+    }
+    .race-row .input-group label {
+        display: none !important;
+    }
+    
     .chart-container {
         page-break-inside: avoid !important;
     }
