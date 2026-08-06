@@ -189,6 +189,10 @@ body.empty-state .sidebar-toggle-col {
     border-radius: 8px; /* Structured */
     padding: 1.5rem;
     border: 1px solid var(--border-color); /* Flat 1px border */
+    margin-bottom: 1.5rem;
+}
+.card:last-child {
+    margin-bottom: 0;
 }
 
 .card-header {
