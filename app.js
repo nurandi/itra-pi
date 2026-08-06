@@ -266,11 +266,23 @@ function loadRaces() {
     }
 }
 
+window.validateScore = (el) => {
+    let val = parseInt(el.value);
+    if (val < 0 || val > 1000) {
+        el.style.borderColor = 'var(--error)';
+        el.style.color = 'var(--error)';
+    } else {
+        el.style.borderColor = '';
+        el.style.color = '';
+    }
+};
+
 function renderRaceList() {
     raceListEl.innerHTML = '';
     races.forEach((race) => {
         const row = document.createElement('div');
         row.className = 'race-row';
+        let scoreStyle = (race.score !== '' && (race.score < 0 || race.score > 1000)) ? 'border-color: var(--error); color: var(--error);' : '';
         row.innerHTML = `
             <div class="input-group">
                 <label>Date</label>
@@ -282,7 +294,7 @@ function renderRaceList() {
             </div>
             <div class="input-group">
                 <label>Score</label>
-                <input type="number" value="${race.score}" placeholder="0" onchange="updateRace('${race.id}', 'score', this.value)">
+                <input type="number" value="${race.score}" min="0" max="1000" placeholder="0" style="${scoreStyle}" oninput="validateScore(this)" onchange="updateRace('${race.id}', 'score', this.value)">
             </div>
             <button class="btn-remove" onclick="removeRace('${race.id}')">✕</button>
         `;
@@ -364,6 +376,7 @@ pasteInput.addEventListener('input', (e) => {
             e.target.placeholder = "Successfully imported " + parsed.length + " races!";
             setTimeout(() => { e.target.placeholder = "Paste your ITRA results table here...\n(e.g. highlight the table, press Ctrl+C, then paste here)"; }, 3000);
         } else {
+            alert("No race scores found. Please make sure you are pasting from the 'Results' tab which contains your individual race scores.");
             e.target.value = '';
             e.target.placeholder = "Could not detect valid races in that text. Please try copying again!";
             setTimeout(() => { e.target.placeholder = "Paste your ITRA results table here...\n(e.g. highlight the table, press Ctrl+C, then paste here)"; }, 4000);
