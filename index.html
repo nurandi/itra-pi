@@ -53,17 +53,15 @@
 
             <!-- Right Column: Results & Simulation -->
             <div class="main-column">
-                <section class="card results-section highlight-card">
+                <div id="pdf-content">
+                    <section class="card results-section highlight-card">
                     <header class="card-header">
                         <h2>Current PI Status</h2>
-                        <div style="display: flex; gap: 1rem; align-items: center;">
-                            <button id="download-pdf-btn" class="btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; border-color: var(--border-color); color: var(--text-muted); background: var(--card-bg);">📄 PDF Report</button>
-                            <div class="toggle-group">
-                                <input type="radio" id="gender-men" name="gender" value="men" checked>
-                                <label for="gender-men">Men</label>
-                                <input type="radio" id="gender-women" name="gender" value="women">
-                                <label for="gender-women">Women</label>
-                            </div>
+                        <div class="toggle-group">
+                            <input type="radio" id="gender-men" name="gender" value="men" checked>
+                            <label for="gender-men">Men</label>
+                            <input type="radio" id="gender-women" name="gender" value="women">
+                            <label for="gender-women">Women</label>
                         </div>
                     </header>
                     <div class="pi-display">
@@ -117,6 +115,13 @@
                         </div>
                     </details>
                 </section>
+                </div> <!-- End pdf-content -->
+                
+                <div style="text-align: right; margin-top: 1.5rem; margin-bottom: 2rem;">
+                    <button type="button" id="download-pdf-btn" class="btn-secondary" style="padding: 0.75rem 1.5rem; font-weight: 600; border-color: var(--border-color); background-color: var(--card-surface); color: var(--text-main);">
+                        📄 Download PDF Report
+                    </button>
+                </div>
             </div>
         </main>
     </div>

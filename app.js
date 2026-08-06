@@ -607,7 +607,7 @@ downloadPdfBtn.addEventListener('click', () => {
     downloadPdfBtn.textContent = '⏳ Generating...';
     downloadPdfBtn.disabled = true;
     
-    const element = document.querySelector('.main-column');
+    const element = document.getElementById('pdf-content');
     const opt = {
         margin:       [10, 10, 10, 10],
         filename:     `ITRA_PI_Report_${new Date().toISOString().split('T')[0]}.pdf`,
@@ -617,8 +617,13 @@ downloadPdfBtn.addEventListener('click', () => {
     };
     
     html2pdf().set(opt).from(element).save().then(() => {
-        downloadPdfBtn.textContent = '📄 PDF Report';
+        downloadPdfBtn.textContent = '📄 Download PDF Report';
         downloadPdfBtn.disabled = false;
+    }).catch(err => {
+        console.error("PDF generation failed:", err);
+        downloadPdfBtn.textContent = '📄 Download PDF Report';
+        downloadPdfBtn.disabled = false;
+        alert("Failed to generate PDF. Check console for details.");
     });
 });
 
