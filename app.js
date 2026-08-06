@@ -305,7 +305,11 @@ function renderRaceList() {
 window.updateRace = (id, field, value) => {
     const race = races.find(r => r.id === id);
     if (race) {
-        race[field] = value;
+        if (field === 'score') {
+            race[field] = parseInt(value) || 0;
+        } else {
+            race[field] = value;
+        }
         saveRaces();
     }
 }
