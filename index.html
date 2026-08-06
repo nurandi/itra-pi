@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITRA Performance Index</title>
+    <!-- Sharp structured typography: Plus Jakarta for headings, DM Sans for dense data -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>ITRA Performance Index</h1>
+            <p>Calculate and simulate your ITRA score.</p>
+        </header>
+
+        <main class="dashboard-grid">
+            <!-- Left Column: Inputs -->
+            <div class="sidebar-column" id="sidebar">
+                <div class="sidebar-content-wrapper">
+                    <section class="card input-section">
+                        <h2>Import Data</h2>
+                        <p style="margin-bottom: 0.75rem; color: var(--text-muted); font-size: 13px;">Copy your race results table from <a href="https://itra.run" target="_blank" style="color: var(--accent); font-weight: 500;">itra.run</a>.</p>
+                        
+                        <div class="paste-area">
+                            <textarea id="itra-paste-input" placeholder="Paste ITRA results table here..."></textarea>
+                        </div>
+                        
+                        <div style="margin-top: 1rem;">
+                            <button class="btn-danger" id="clear-data-btn">Clear All Data</button>
+                        </div>
+
+                        <div class="or-divider"><span>OR ADD MANUALLY</span></div>
+
+                        <div class="race-builder" id="race-list">
+                            <!-- Dynamic race rows go here -->
+                        </div>
+                        <button class="btn-secondary" id="add-race-btn">+ Add Race</button>
+                    </section>
+                </div>
+            </div>
+            
+            <!-- Toggle Column -->
+            <div class="sidebar-toggle-col">
+                <button id="toggle-sidebar-btn" class="btn-toggle-side" aria-label="Toggle Inputs">
+                    <span class="icon">◀</span>
+                </button>
+            </div>
+
+            <!-- Right Column: Results & Simulation -->
+            <div class="main-column">
+                <section class="card results-section highlight-card">
+                    <header class="card-header">
+                        <h2>Current PI Status</h2>
+                        <div class="toggle-group">
+                            <input type="radio" id="gender-men" name="gender" value="men" checked>
+                            <label for="gender-men">Men</label>
+                            <input type="radio" id="gender-women" name="gender" value="women">
+                            <label for="gender-women">Women</label>
+                        </div>
+                    </header>
+                    <div class="pi-display">
+                        <div class="pi-circle">
+                            <span id="current-pi-value">0</span>
+                        </div>
+                        <div class="pi-details">
+                            <div class="stat-box">
+                                <span class="stat-label">Level</span>
+                                <span class="stat-value" id="current-pi-level">-</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Raw Average</span>
+                                <span class="stat-value" id="current-raw-value">0.0</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-label">Best Scenario</span>
+                                <span class="stat-value">Scenario <span id="current-scenario-value">-</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="card results-section card-collapsible">
+                    <details open>
+                        <summary><h2>Calculation Scenarios</h2></summary>
+                        <div id="all-scenarios-container" class="scenarios-accordion">
+                            <!-- Scenarios populated by JS -->
+                        </div>
+                    </details>
+                </section>
+
+                <section class="card simulation-section card-collapsible">
+                    <details open>
+                        <summary><h2>Simulation</h2></summary>
+                        <div class="simulation-content">
+                            <div class="simulation-inputs">
+                                <div class="input-group" style="max-width: 200px;">
+                                    <label>Target PI</label>
+                                    <input type="number" id="target-pi-input">
+                                </div>
+                            </div>
+                            
+                            <div id="simulation-results">
+                                <!-- Simulation UI boxes go here -->
+                            </div>
+                            
+                            <div class="chart-container">
+                                <canvas id="simulationChart"></canvas>
+                            </div>
+                        </div>
+                    </details>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
