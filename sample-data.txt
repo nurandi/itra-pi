@@ -1,0 +1,151 @@
+Race
+Country
+Distance/M+
+Endurance Points
+Gender Ranking
+Race Time
+Race Score
+Race Score Info
+Race Score Sorting
+2026-07-03
+100K
+MANTRA116 - 116K
+National League
+INA
+115 km /
+7135 m+
+Itra Point 5
+5
+
+35
+31:24:26
+456down arrow
+2026-05-02
+100K
+Rinjani 100 - 100 Km
+National League
+INA
+99 km /
+8951 m+
+Itra Point 5
+5
+
+10
+33:13:28
+506down arrow
+2026-04-11
+50M
+Semarang Mountain Race - SMR 82K
+National League
+INA
+80 km /
+5194 m+
+Itra Point 4
+4
+
+6
+16:57:35
+583down arrow
+2026-03-28
+Half Marathon
+LEBARUN - Lebarun
+National League
+INA
+28 km /
+2903 m+
+Itra Point 2
+2
+
+5
+6:29:25
+574down arrow
+2026-03-07
+Half Marathon
+MIDNITE TRAIL RUN - 18km
+National League
+INA
+18 km /
+1725 m+
+Itra Point 1
+1
+
+5
+4:35:50
+454down arrow
+2025-12-20
+Half Marathon
+Indonesia Master Mountain Race - Master 30K
+National League
+INA
+28 km /
+2297 m+
+Itra Point 2
+2
+
+4
+5:05:00
+641down arrow
+2025-12-06
+100K
+Siksorogo Lawu Ultra - Trail 120KM
+National League
+INA
+123 km /
+8385 m+
+Itra Point 5
+5
+
+11
+32:30:47
+528down arrow
+2025-11-08
+100K
+Bromo Tengger Semeru 100 Ultra - BTS 100K
+National League
+INA
+100 km /
+4235 m+
+Itra Point 4
+4
+
+19
+21:19:51
+502down arrow
+2025-09-27
+50M
+JAKARTA OPEN TRAIL RUN GEDE PANGRANGO SERIES - LONG 80K
+National League
+INA
+82 km /
+6834 m+
+Itra Point 4
+4
+
+8
+30:38:51
+402down arrow
+2025-07-05
+100K
+MANTRA116 - 116K
+National League
+INA
+115 km /
+7135 m+
+Itra Point 5
+5
+
+DNF
+DNFdown arrow
+2025-04-12
+50K
+Semarang Mountain Race - 50k
+National League
+INA
+51 km /
+3301 m+
+Itra Point 3
+3
+
+11
+10:41:18
+532down arrow
