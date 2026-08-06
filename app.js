@@ -104,7 +104,7 @@ function calculateItraPiCore(inputRaces, today = new Date()) {
         }
     }
 
-    let finalPi = Math.round(maxAverage);
+    let finalPi = Math.floor(maxAverage);
     
     return {
         pi: finalPi,
