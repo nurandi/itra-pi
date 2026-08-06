@@ -30,6 +30,8 @@ For a deep dive into the math behind the ITRA Performance Index, check out this 
 3. Paste the text directly into the "Race History" input box in the app.
 4. Watch the dashboard instantly update with your custom Athlete Badges, Current PI, Level, and Simulation charts!
 
+*(Don't have an ITRA profile? You can copy and paste this [Sample Data](sample-data.txt) to test the app!)*
+
 ## 💻 Technology Stack
 
 This is a 100% static, client-side web application. It requires zero installation and uses zero backend servers. All data processing and math is handled directly inside your browser.
