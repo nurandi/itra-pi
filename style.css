@@ -618,14 +618,17 @@ tr:last-child td {
         display: block !important;
     }
     
-    /* Stack layout instead of side-by-side flex */
+    /* Stack layout instead of side-by-side flex, and reorder to put Results before History */
     main.dashboard-grid {
-        display: block !important;
+        display: flex !important;
+        flex-direction: column !important;
     }
     
     .sidebar-column {
+        order: 2 !important;
         width: 100% !important;
         opacity: 1 !important;
+        margin-top: 2rem !important;
         margin-bottom: 2rem !important;
     }
     .sidebar-content-wrapper {
@@ -641,6 +644,7 @@ tr:last-child td {
     }
     
     .main-column {
+        order: 1 !important;
         width: 100% !important;
         margin: 0 !important;
         max-width: none !important;
