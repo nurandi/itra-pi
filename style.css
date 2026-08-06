@@ -597,9 +597,16 @@ tr:last-child td {
 
 /* Clean Print Styles for PDF Export */
 @media print {
-    body, .main-column, .card, .scenario-content {
+    body, .main-column, .card, .scenario-content, .container {
         background: #ffffff !important;
         color: #000000 !important;
+    }
+    
+    .container {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
     
     /* Hide top page header, side toggle, download button, and form controls */
@@ -717,5 +724,12 @@ tr:last-child td {
     
     .chart-container {
         page-break-inside: avoid !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    .chart-container canvas {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
     }
 }
