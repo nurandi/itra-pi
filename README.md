@@ -25,7 +25,7 @@ For a deep dive into the math behind the ITRA Performance Index, check out this 
 
 ## 🏃‍♂️ Usage
 
-1. Open your runner profile on [itra.run](https://itra.run) and navigate to the **Results** tab.
+1. Open your runner profile on [itra.run](https://itra.run) and navigate to the **Results** tab. (Make sure to click **"Load more results"** if needed to show your races from the last 3 years).
 2. Select all the text on the page (`Ctrl+A` or `Cmd+A`) and copy it.
 3. Paste the text directly into the "Race History" input box in the app.
 4. Watch the dashboard instantly update with your custom Athlete Badges, Current PI, Level, and Simulation charts!
