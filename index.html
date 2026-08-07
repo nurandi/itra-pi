@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ITRA Performance Index Calculator & Simulator</title>
-    <meta name="description" content="ITRA Performance Index calculator. Calculate your current PI, explore your best scenarios, and simulate the race scores needed to level up.">
-    
+    <meta name="description"
+        content="Calculate your current ITRA Performance Index, explore your best scenarios, and simulate the race scores needed to level up.">
+
     <link rel="canonical" href="https://itra-pi.nurandi.id/" />
-    
+
     <!-- Open Graph / Social Sharing -->
     <meta property="og:title" content="ITRA Performance Index Calculator & Simulator">
-    <meta property="og:description" content="ITRA Performance Index calculator. Calculate your current PI, explore your best scenarios, and simulate the race scores needed to level up.">
+    <meta property="og:description"
+        content="Calculate your current ITRA Performance Index, explore your best scenarios, and simulate the race scores needed to level up.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://itra-pi.nurandi.id/">
     <meta name="twitter:card" content="summary_large_image">
     <!-- Sharp structured typography: Plus Jakarta for headings, DM Sans for dense data -->
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
     <div class="container">
         <header>
@@ -32,21 +38,31 @@
                 <div class="sidebar-content-wrapper">
                     <section class="card input-section">
                         <h2>Race History</h2>
-                        <p class="import-instructions" style="margin-bottom: 0.75rem; color: var(--text-muted); font-size: 13px;">Go to your profile on <a href="https://itra.run" target="_blank" style="color: var(--accent); font-weight: 500;">itra.run</a>, open the <strong>Results</strong> tab, click <strong>"Load more results"</strong> to show your last 3 years of races, then <strong>select all</strong> text on the page (Ctrl+A / Cmd+A), copy and paste here.</p>
-                        
+                        <p class="import-instructions"
+                            style="margin-bottom: 0.75rem; color: var(--text-muted); font-size: 13px;">Go to your
+                            profile on <a href="https://itra.run" target="_blank"
+                                style="color: var(--accent); font-weight: 500;">itra.run</a>, open the
+                            <strong>Results</strong> tab, click <strong>"Load more results"</strong> to show your last 3
+                            years of races, then <strong>select all</strong> text on the page (Ctrl+A / Cmd+A), copy and
+                            paste here.
+                        </p>
+
                         <div class="paste-area">
                             <textarea id="itra-paste-input" placeholder="Paste ITRA results table here..."></textarea>
                         </div>
-                        <p class="screen-only" style="text-align: center; margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
-                            Don't have a profile? <a href="sample-data.txt" target="_blank" style="color: var(--accent); font-weight: 500; text-decoration: underline;">Use this Sample Data</a>
+                        <p class="screen-only"
+                            style="text-align: center; margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
+                            Don't have a profile? <a href="sample-data.txt" target="_blank"
+                                style="color: var(--accent); font-weight: 500; text-decoration: underline;">Use this
+                                Sample Data</a>
                         </p>
-                        
+
                         <div style="margin-top: 1rem;">
                             <button class="btn-danger" id="clear-data-btn">Clear All Data</button>
                         </div>
-                        
+
                         <div class="or-divider"><span>OR ADD MANUALLY</span></div>
-                        
+
                         <div id="print-race-history"></div>
 
                         <div class="race-builder" id="race-list">
@@ -56,7 +72,7 @@
                     </section>
                 </div>
             </div>
-            
+
             <!-- Toggle Column -->
             <div class="sidebar-toggle-col">
                 <button id="toggle-sidebar-btn" class="btn-toggle-side" aria-label="Toggle Inputs">
@@ -68,89 +84,119 @@
             <div class="main-column">
                 <div id="pdf-content">
                     <section class="card results-section highlight-card">
-                    <header class="card-header">
-                        <h2>Current Performance Index (PI) Status</h2>
-                        <div id="runner-info" class="athlete-details" style="display: none;"></div>
-                    </header>
-                    <div class="pi-display">
-                        <div class="pi-circle" style="flex-direction: column;">
-                            <span class="stat-label">PI</span>
-                            <span id="current-pi-value">0</span>
-                        </div>
-                        <div class="pi-details">
-                            <div class="stat-box">
-                                <span class="stat-label">Level</span>
-                                <span class="stat-value" id="current-pi-level">-</span>
+                        <header class="card-header">
+                            <h2>Current Performance Index (PI) Status</h2>
+                            <div id="runner-info" class="athlete-details" style="display: none;"></div>
+                        </header>
+                        <div class="pi-display">
+                            <div class="pi-circle" style="flex-direction: column;">
+                                <span class="stat-label">PI</span>
+                                <span id="current-pi-value">0</span>
                             </div>
-                            <div class="stat-box">
-                                <span class="stat-label">Raw Average</span>
-                                <span class="stat-value" id="current-raw-value">0.0</span>
-                            </div>
-                            <div class="stat-box">
-                                <span class="stat-label">Best Scenario</span>
-                                <span class="stat-value">Scenario <span id="current-scenario-value">-</span></span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                
-                <section class="card results-section card-collapsible">
-                    <details open>
-                        <summary><h2>Calculation Scenarios</h2></summary>
-                        <div id="all-scenarios-container" class="scenarios-accordion">
-                            <!-- Scenarios populated by JS -->
-                        </div>
-                    </details>
-                </section>
-
-                <section class="card simulation-section card-collapsible">
-                    <details open>
-                        <summary><h2>Simulation</h2></summary>
-                        <div class="simulation-content">
-                            <div class="simulation-inputs">
-                                <div class="input-group" style="max-width: 200px;">
-                                    <label>Target PI</label>
-                                    <input type="number" id="target-pi-input">
+                            <div class="pi-details">
+                                <div class="stat-box">
+                                    <span class="stat-label">Level</span>
+                                    <span class="stat-value" id="current-pi-level">-</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-label">Raw Average</span>
+                                    <span class="stat-value" id="current-raw-value">0.0</span>
+                                </div>
+                                <div class="stat-box">
+                                    <span class="stat-label">Best Scenario</span>
+                                    <span class="stat-value">Scenario <span id="current-scenario-value">-</span></span>
                                 </div>
                             </div>
-                            
-                            <div id="simulation-results">
-                                <!-- Simulation UI boxes go here -->
-                            </div>
-                            
-                            <div class="chart-container">
-                                <canvas id="simulationChart"></canvas>
-                            </div>
                         </div>
-                    </details>
-                </section>
+                    </section>
 
-                <section class="card math-section card-collapsible">
-                    <details>
-                        <summary><h2>How The Math Works</h2></summary>
-                        <div class="math-content" style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
-                            <p style="margin-bottom: 0.75rem;">Your ITRA Performance Index is a <strong>weighted average</strong> of up to your best 5 races from the last 36 months. Here is exactly how the algorithm calculates it:</p>
-                            
-                            <ul style="padding-left: 1.25rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                                <li><strong>The 36-Month Window:</strong> Only races finished within the last 36 months are counted. Anything older expires and drops off completely.</li>
-                                <li><strong>Time Decay (Weight):</strong> Recent races matter more. A race finished today has a weight of <strong>1.00</strong>. After 12 months, its weight starts dropping. By month 36, its weight drops to around <strong>0.33</strong> before expiring.</li>
-                                <li><strong>Finding the Best Scenario:</strong> The algorithm tests 5 different scenarios (taking your best 1, 2, 3, 4, and 5 races). For each scenario, it multiplies the race score by its time decay weight, adds them up, and divides by the total weight.</li>
-                                <li><strong>The Final Score:</strong> Whichever of those 5 scenarios results in the highest average becomes your official Performance Index!</li>
-                            </ul>
-                            <p><em>Note: This is why running a bad race will never lower your PI. The algorithm simply won't include it in your "best scenario" if it brings the average down!</em></p>
-                            
-                            <p style="margin-top: 1.25rem; margin-bottom: 0.5rem; color: var(--text-main);"><strong>How the Simulator Works</strong></p>
-                            <p>When you set a target PI, the app injects a hypothetical "Next Race" into your history scheduled for today. It then rapidly runs the entire ITRA algorithm in the background—testing hundreds of possible scores—until it finds the exact minimum race score required to push your overall average up to your target.</p>
+                    <section class="card results-section card-collapsible">
+                        <details open>
+                            <summary>
+                                <h2>Calculation Scenarios</h2>
+                            </summary>
+                            <div id="all-scenarios-container" class="scenarios-accordion">
+                                <!-- Scenarios populated by JS -->
+                            </div>
+                        </details>
+                    </section>
 
-                            <p style="margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
-                                📖 <strong>Want more details?</strong> Read the official <a href="https://itra.run/FAQ/PerformanceIndex" target="_blank" style="font-weight: 600;">ITRA FAQ</a> or check out <a href="https://www.threads.com/share/LU2-4pzqa/" target="_blank" style="font-weight: 600;">my full breakdown on Threads</a>.
-                            </p>
-                        </div>
-                    </details>
-                </section>
+                    <section class="card simulation-section card-collapsible">
+                        <details open>
+                            <summary>
+                                <h2>Simulation</h2>
+                            </summary>
+                            <div class="simulation-content">
+                                <div class="simulation-inputs">
+                                    <div class="input-group" style="max-width: 200px;">
+                                        <label>Target PI</label>
+                                        <input type="number" id="target-pi-input">
+                                    </div>
+                                </div>
+
+                                <div id="simulation-results">
+                                    <!-- Simulation UI boxes go here -->
+                                </div>
+
+                                <div class="chart-container">
+                                    <canvas id="simulationChart"></canvas>
+                                </div>
+                            </div>
+                        </details>
+                    </section>
+
+                    <section class="card math-section card-collapsible">
+                        <details>
+                            <summary>
+                                <h2>How The Math Works</h2>
+                            </summary>
+                            <div class="math-content"
+                                style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+                                <p style="margin-bottom: 0.75rem;">Your ITRA Performance Index is a <strong>weighted
+                                        average</strong> of up to your best 5 races from the last 36 months. Here is
+                                    exactly how the algorithm calculates it:</p>
+
+                                <ul
+                                    style="padding-left: 1.25rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                                    <li><strong>The 36-Month Window:</strong> Only races finished within the last 36
+                                        months are counted. Anything older expires and drops off completely.</li>
+                                    <li><strong>Time Decay (Weight):</strong> Recent races matter more. A race finished
+                                        today has a weight of <strong>1.00</strong>. After 12 months, its weight starts
+                                        dropping. By month 36, its weight drops to around <strong>0.33</strong> before
+                                        expiring.</li>
+                                    <li><strong>Finding the Best Scenario:</strong> The algorithm tests 5 different
+                                        scenarios (taking your best 1, 2, 3, 4, and 5 races). For each scenario, it
+                                        multiplies the race score by its time decay weight, adds them up, and divides by
+                                        the total weight.</li>
+                                    <li><strong>The Final Score:</strong> Whichever of those 5 scenarios results in the
+                                        highest average becomes your official Performance Index!</li>
+                                </ul>
+                                <p><em>Note: This is why running a bad race will never lower your PI. The algorithm
+                                        simply won't include it in your "best scenario" if it brings the average
+                                        down!</em></p>
+
+                                <p style="margin-top: 1.25rem; margin-bottom: 0.5rem; color: var(--text-main);">
+                                    <strong>How the Simulator Works</strong>
+                                </p>
+                                <p>When you set a target PI, the app injects a hypothetical "Next Race" into your
+                                    history scheduled for today. It then rapidly runs the entire ITRA algorithm in the
+                                    background—testing hundreds of possible scores—until it finds the exact minimum race
+                                    score required to push your overall average up to your target.</p>
+
+                                <p
+                                    style="margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
+                                    📖 <strong>Want more details?</strong> Read the official <a
+                                        href="https://itra.run/FAQ/PerformanceIndex" target="_blank"
+                                        style="font-weight: 600;">ITRA FAQ</a> or check out <a
+                                        href="https://www.threads.com/share/LU2-4pzqa/" target="_blank"
+                                        style="font-weight: 600;">my full breakdown on Threads</a>.
+                                </p>
+                            </div>
+                        </details>
+                    </section>
 
                 </div> <!-- End pdf-content -->
-                
+
                 <div style="text-align: right; margin-top: 1.5rem; margin-bottom: 2rem;">
                     <button type="button" id="download-pdf-btn" class="btn-orange">
                         📄 Download PDF Report
@@ -160,12 +206,17 @@
         </main>
 
         <footer class="app-footer">
-            <p><strong>Privacy First:</strong> No data is sent to any server. All calculations are done locally in your browser.</p>
-            <p><strong>Disclaimer:</strong> This is an unofficial tool made by a runner, for runners. ITRA® is a registered trademark of the International Trail Running Association.</p>
-            <p>Calculations are based on the public methodology described on the <a href="https://itra.run/FAQ/PerformanceIndex" target="_blank">ITRA FAQ page</a>.</p>
-            <p>For a detailed breakdown of how this math works, read my full explanation on <a href="https://www.threads.com/share/LU2-4pzqa/" target="_blank">Threads</a>.</p>
+            <p><strong>Privacy First:</strong> No data is sent to any server. All calculations are done locally in your
+                browser.</p>
+            <p><strong>Disclaimer:</strong> This is an unofficial tool made by a runner, for runners. ITRA® is a
+                registered trademark of the International Trail Running Association.</p>
+            <p>Calculations are based on the public methodology described on the <a
+                    href="https://itra.run/FAQ/PerformanceIndex" target="_blank">ITRA FAQ page</a>.</p>
+            <p>For a detailed breakdown of how this math works, read my full explanation on <a
+                    href="https://www.threads.com/share/LU2-4pzqa/" target="_blank">Threads</a>.</p>
         </footer>
     </div>
     <script src="app.js"></script>
 </body>
+
 </html>
