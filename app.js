@@ -39,8 +39,7 @@ function calculateItraPiCore(inputRaces, today = new Date()) {
         let monthsAgo = getMonthsAgo(today, dObj);
         if (monthsAgo < 36 && monthsAgo >= 0) {
             validRaces.push({
-                date: race.date,
-                name: race.name,
+                ...race,
                 score: parseFloat(race.score),
                 monthsAgo: monthsAgo
             });
