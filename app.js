@@ -7,6 +7,20 @@ let runnerGender = '';
 let runnerAgeGroup = '';
 let runnerNationality = '';
 
+function getItraBadgeHtml(points) {
+    if (!points) return '';
+    let color = '#7d7d7d';
+    switch(String(points)) {
+        case '1': color = '#8cc63f'; break;
+        case '2': color = '#cdd500'; break;
+        case '3': color = '#51c4e9'; break;
+        case '4': color = '#ab6ba6'; break;
+        case '5': color = '#df7329'; break;
+        case '6': color = '#b7292b'; break;
+    }
+    return `<span style="background: ${color}; color: white; padding: 1px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-right: 6px; display: inline-block; min-width: 12px; text-align: center;">${points}</span>`;
+}
+
 // ITRA Math Logic
 function getMonthsAgo(todayDate, raceDate) {
     let years = todayDate.getFullYear() - raceDate.getFullYear();
@@ -501,7 +515,7 @@ function updateDashboard() {
             printHtml += `
             <tr>
                 <td style="padding: 6px; border: 1px solid #ccc; white-space: nowrap;">${r.date}</td>
-                <td style="padding: 6px; border: 1px solid #ccc;">${r.name} ${r.points ? `<span style="background: #ef6c00; color: white; padding: 2px 4px; border-radius: 4px; font-size: 0.7rem; margin-left: 4px; white-space: nowrap;">${r.points} PT</span>` : ''}</td>
+                <td style="padding: 6px; border: 1px solid #ccc;">${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
                 <td style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">${r.dist || '-'}</td>
                 <td style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">${r.elev || '-'}</td>
                 <td style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">${r.time || '-'}</td>
@@ -546,7 +560,7 @@ function updateDashboard() {
                     tableHtml += `
                         <tr>
                             <td style="white-space: nowrap;">${r.date}</td>
-                            <td>${r.name} ${r.points ? `<span style="background: var(--accent); color: white; padding: 2px 5px; border-radius: 4px; font-size: 0.75rem; margin-left: 6px; white-space: nowrap;">${r.points} PT</span>` : ''}</td>
+                            <td>${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
                             <td>${r.wScore.toFixed(1)}</td>
                             <td>${r.eWeight.toFixed(2)}</td>
                             <td style="font-weight: bold; color: var(--text-main);">${r.wxScore.toFixed(1)}</td>
@@ -643,7 +657,7 @@ function runSimulation(currentResult, today) {
             tableHtml += `
                 <tr style="${rowStyle}">
                     <td style="white-space: nowrap;">${r.date}</td>
-                    <td>${r.name} ${r.points ? `<span style="background: var(--accent); color: white; padding: 2px 5px; border-radius: 4px; font-size: 0.75rem; margin-left: 6px; white-space: nowrap;">${r.points} PT</span>` : ''}</td>
+                    <td>${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
                     <td>${r.wScore.toFixed(1)}</td>
                     <td>${r.eWeight.toFixed(2)}</td>
                     <td style="font-weight: bold; color: ${finalColor};">${r.wxScore.toFixed(1)}</td>
