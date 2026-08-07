@@ -18,7 +18,7 @@ function getItraBadgeHtml(points) {
         case '4': color = '#ab6ba6'; break;
         case '5': color = '#df7329'; break;
         case '6': color = '#b7292b'; break;
-        case 'SIM': color = 'var(--accent)'; text = '🎯'; break;
+        case 'SIM': color = '#18181b'; text = '★'; break;
     }
     return `<span style="background: ${color}; color: white; padding: 1px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-right: 6px; display: inline-block; min-width: 12px; text-align: center;">${text}</span>`;
 }
