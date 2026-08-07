@@ -425,29 +425,29 @@ function updateDashboard() {
     
     // Generate simple table layout for PDF print
     let printHtml = `
-    <table class="print-only" style="width: 100%; margin-top: 1rem; font-size: 0.95rem; border-collapse: collapse;">
+    <table class="print-only" style="width: 100%; margin-top: 1rem; font-size: 0.85rem; border-collapse: collapse;">
         <thead>
             <tr style="background: #f0f0f0;">
-                <th style="text-align: left; padding: 8px; border: 1px solid #ccc;">Date</th>
-                <th style="text-align: left; padding: 8px; border: 1px solid #ccc;">Race Name</th>
-                <th style="text-align: right; padding: 8px; border: 1px solid #ccc;">Distance</th>
-                <th style="text-align: right; padding: 8px; border: 1px solid #ccc;">Time</th>
-                <th style="text-align: right; padding: 8px; border: 1px solid #ccc;">Score</th>
+                <th style="text-align: left; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">DATE</th>
+                <th style="text-align: left; padding: 6px; border: 1px solid #ccc;">RACE NAME</th>
+                <th style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">DISTANCE</th>
+                <th style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">TIME</th>
+                <th style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">SCORE</th>
             </tr>
         </thead>
         <tbody>
     `;
     if (races.length === 0) {
-        printHtml += `<tr><td colspan="5" style="text-align: center; padding: 8px; border: 1px solid #ccc;">No races recorded</td></tr>`;
+        printHtml += `<tr><td colspan="5" style="text-align: center; padding: 6px; border: 1px solid #ccc;">No races recorded</td></tr>`;
     } else {
         races.forEach(r => {
             printHtml += `
             <tr>
-                <td style="padding: 8px; border: 1px solid #ccc;">${r.date}</td>
-                <td style="padding: 8px; border: 1px solid #ccc;">${r.name}</td>
-                <td style="text-align: right; padding: 8px; border: 1px solid #ccc;">${r.dist || '-'}</td>
-                <td style="text-align: right; padding: 8px; border: 1px solid #ccc;">${r.time || '-'}</td>
-                <td style="text-align: right; padding: 8px; border: 1px solid #ccc; font-weight: bold;">${r.score}</td>
+                <td style="padding: 6px; border: 1px solid #ccc; white-space: nowrap;">${r.date}</td>
+                <td style="padding: 6px; border: 1px solid #ccc;">${r.name}</td>
+                <td style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">${r.dist || '-'}</td>
+                <td style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">${r.time || '-'}</td>
+                <td style="text-align: right; padding: 6px; border: 1px solid #ccc; font-weight: bold; white-space: nowrap;">${r.score}</td>
             </tr>`;
         });
     }
@@ -482,16 +482,16 @@ function updateDashboard() {
                 
                 let tableHtml = `<div class="top-races-table" style="overflow-x: auto; margin-top: 1rem;">
                     <table>
-                        <tr><th>Date</th><th>Name</th><th>W. Score</th><th>Weight</th><th>Final Score</th></tr>`;
+                        <tr><th style="white-space: nowrap;">DATE</th><th>NAME</th><th>W. SCORE</th><th>WEIGHT</th><th>FINAL SCORE</th></tr>`;
                 
                 log.forEach((r) => {
                     tableHtml += `
                         <tr>
-                            <td>${r.date}</td>
+                            <td style="white-space: nowrap;">${r.date}</td>
                             <td>${r.name}</td>
                             <td>${r.wScore.toFixed(1)}</td>
                             <td>${r.eWeight.toFixed(2)}</td>
-                            <td style="font-weight: bold; color: #fff;">${r.wxScore.toFixed(1)}</td>
+                            <td style="font-weight: bold; color: var(--text-main);">${r.wxScore.toFixed(1)}</td>
                         </tr>
                     `;
                 });
@@ -576,15 +576,15 @@ function runSimulation(currentResult, today) {
     function buildSimTable(log) {
         let tableHtml = `<div class="top-races-table" style="overflow-x: auto; margin-top: 1rem;">
             <table>
-                <tr><th>Date</th><th>Name</th><th>W. Score</th><th>Weight</th><th>Final Score</th></tr>`;
+                <tr><th style="white-space: nowrap;">DATE</th><th>NAME</th><th>W. SCORE</th><th>WEIGHT</th><th>FINAL SCORE</th></tr>`;
         log.forEach((r) => {
             const isSim = r.name === "Next race (simulation)";
             const rowStyle = isSim ? 'color: var(--accent); font-weight: 500;' : '';
-            const finalColor = isSim ? 'var(--accent)' : '#fff';
+            const finalColor = isSim ? 'var(--accent)' : 'var(--text-main)';
             
             tableHtml += `
                 <tr style="${rowStyle}">
-                    <td>${r.date}</td>
+                    <td style="white-space: nowrap;">${r.date}</td>
                     <td>${r.name}</td>
                     <td>${r.wScore.toFixed(1)}</td>
                     <td>${r.eWeight.toFixed(2)}</td>
@@ -820,10 +820,16 @@ downloadPdfBtn.addEventListener('click', () => {
     printHeaderContainer.style.paddingBottom = '1rem';
     
     const nameHeader = document.createElement('h1');
-    nameHeader.style.fontSize = '2.2rem';
-    nameHeader.style.fontWeight = '800';
     nameHeader.style.margin = '0 0 0.5rem 0';
-    nameHeader.textContent = nameText ? `${nameText}'s ITRA Performance Report` : `ITRA Performance Report`;
+    
+    if (nameText) {
+        nameHeader.innerHTML = `
+            <div style="font-size: 2.5rem; font-weight: 800; line-height: 1.2;">${nameText}</div>
+            <div style="font-size: 1.4rem; font-weight: 600; color: #555; margin-top: 0.25rem;">ITRA Performance Report</div>
+        `;
+    } else {
+        nameHeader.innerHTML = `<div style="font-size: 2.2rem; font-weight: 800;">ITRA Performance Report</div>`;
+    }
     
     printHeaderContainer.appendChild(nameHeader);
     

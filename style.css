@@ -472,6 +472,25 @@ a:hover {
     outline: none;
 }
 
+.btn-orange {
+    background-color: var(--accent);
+    border: 1px solid var(--accent);
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-orange:hover, .btn-orange:focus-visible {
+    opacity: 0.9;
+    outline: none;
+}
+
 /* PI Display */
 .pi-display {
     display: flex;
@@ -768,23 +787,47 @@ tr:last-child td {
         display: block !important;
     }
     
-    /* Stack layout instead of side-by-side flex, and reorder to put Results before History */
+    /* Flatten the structure to control order of individual sections */
     main.dashboard-grid {
         display: flex !important;
         flex-direction: column !important;
+        width: 100% !important;
     }
     
-    .sidebar-column {
-        display: block !important;
-        order: 2 !important;
-        width: 100% !important;
-        opacity: 1 !important;
-        margin-top: 0 !important;
-        margin-bottom: 2rem !important;
-        page-break-before: always !important;
+    .sidebar-column, .sidebar-content-wrapper, .main-column, #pdf-content {
+        display: contents !important;
     }
-    .sidebar-content-wrapper {
-        width: 100% !important;
+
+    /* Assign exact order and force page breaks */
+    
+    /* Section 1: Current PI & athlete detail */
+    .results-section.highlight-card { 
+        order: 1 !important; 
+        page-break-after: always !important; 
+    }
+    
+    /* Section 2: Calculation Scenario */
+    .results-section.card-collapsible { 
+        order: 2 !important; 
+        page-break-after: always !important; 
+    }
+    
+    /* Section 3: Simulation */
+    .simulation-section { 
+        order: 3 !important; 
+        page-break-after: always !important; 
+    }
+    
+    /* Section 4: Race History Detail */
+    .input-section { 
+        order: 4 !important; 
+        page-break-after: always !important; 
+    }
+    
+    /* Section 5: How it works */
+    .math-section { 
+        order: 5 !important; 
+        page-break-after: avoid !important;
     }
     
     /* Inputs should look like normal text in print */
@@ -792,14 +835,6 @@ tr:last-child td {
         border: none !important;
         background: transparent !important;
         color: #000 !important;
-        padding: 0 !important;
-    }
-    
-    .main-column {
-        order: 1 !important;
-        width: 100% !important;
-        margin: 0 !important;
-        max-width: none !important;
         padding: 0 !important;
     }
     .card {
@@ -852,6 +887,10 @@ tr:last-child td {
     }
     details {
         margin-bottom: 1.5rem !important;
+        page-break-inside: avoid !important;
+    }
+    tr {
+        page-break-inside: avoid !important;
     }
     .race-builder {
         display: flex !important;

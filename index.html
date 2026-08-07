@@ -122,7 +122,6 @@
                                 <canvas id="simulationChart"></canvas>
                             </div>
                         </div>
-                        </div>
                     </details>
                 </section>
 
@@ -133,12 +132,19 @@
                             <p style="margin-bottom: 0.75rem;">Your ITRA Performance Index is a <strong>weighted average</strong> of up to your best 5 races from the last 36 months. Here is exactly how the algorithm calculates it:</p>
                             
                             <ul style="padding-left: 1.25rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                                <li><strong>1. The 36-Month Window:</strong> Only races finished within the last 36 months are counted. Anything older expires and drops off completely.</li>
-                                <li><strong>2. Time Decay (Weight):</strong> Recent races matter more. A race finished today has a weight of <strong>1.00</strong>. After 12 months, its weight starts dropping. By month 36, its weight drops to around <strong>0.33</strong> before expiring.</li>
-                                <li><strong>3. Finding the Best Scenario:</strong> The algorithm tests 5 different scenarios (taking your best 1, 2, 3, 4, and 5 races). For each scenario, it multiplies the race score by its time decay weight, adds them up, and divides by the total weight.</li>
-                                <li><strong>4. The Final Score:</strong> Whichever of those 5 scenarios results in the highest average becomes your official Performance Index!</li>
+                                <li><strong>The 36-Month Window:</strong> Only races finished within the last 36 months are counted. Anything older expires and drops off completely.</li>
+                                <li><strong>Time Decay (Weight):</strong> Recent races matter more. A race finished today has a weight of <strong>1.00</strong>. After 12 months, its weight starts dropping. By month 36, its weight drops to around <strong>0.33</strong> before expiring.</li>
+                                <li><strong>Finding the Best Scenario:</strong> The algorithm tests 5 different scenarios (taking your best 1, 2, 3, 4, and 5 races). For each scenario, it multiplies the race score by its time decay weight, adds them up, and divides by the total weight.</li>
+                                <li><strong>The Final Score:</strong> Whichever of those 5 scenarios results in the highest average becomes your official Performance Index!</li>
                             </ul>
                             <p><em>Note: This is why running a bad race will never lower your PI. The algorithm simply won't include it in your "best scenario" if it brings the average down!</em></p>
+                            
+                            <p style="margin-top: 1.25rem; margin-bottom: 0.5rem; color: var(--text-main);"><strong>How the Simulator Works</strong></p>
+                            <p>When you set a target PI, the app injects a hypothetical "Next Race" into your history scheduled for today. It then rapidly runs the entire ITRA algorithm in the background—testing hundreds of possible scores—until it finds the exact minimum race score required to push your overall average up to your target.</p>
+
+                            <p style="margin-top: 1.25rem; border-top: 1px solid var(--border-color); padding-top: 0.75rem;">
+                                📖 <strong>Want more details?</strong> Read the official <a href="https://itra.run/FAQ/PerformanceIndex" target="_blank" style="font-weight: 600;">ITRA FAQ</a> or check out <a href="https://www.threads.com/share/LU2-4pzqa/" target="_blank" style="font-weight: 600;">my full breakdown on Threads</a>.
+                            </p>
                         </div>
                     </details>
                 </section>
@@ -146,7 +152,7 @@
                 </div> <!-- End pdf-content -->
                 
                 <div style="text-align: right; margin-top: 1.5rem; margin-bottom: 2rem;">
-                    <button type="button" id="download-pdf-btn" class="btn-secondary" style="padding: 0.75rem 1.5rem; font-weight: 600; border-color: var(--border-color); background-color: var(--card-surface); color: var(--text-main);">
+                    <button type="button" id="download-pdf-btn" class="btn-orange">
                         📄 Download PDF Report
                     </button>
                 </div>
