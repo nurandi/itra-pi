@@ -122,8 +122,27 @@
                                 <canvas id="simulationChart"></canvas>
                             </div>
                         </div>
+                        </div>
                     </details>
                 </section>
+
+                <section class="card math-section card-collapsible">
+                    <details>
+                        <summary><h2>How The Math Works</h2></summary>
+                        <div class="math-content" style="margin-top: 1rem; color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">
+                            <p style="margin-bottom: 0.75rem;">Your ITRA Performance Index is a <strong>weighted average</strong> of up to your best 5 races from the last 36 months. Here is exactly how the algorithm calculates it:</p>
+                            
+                            <ul style="padding-left: 1.25rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                                <li><strong>1. The 36-Month Window:</strong> Only races finished within the last 36 months are counted. Anything older expires and drops off completely.</li>
+                                <li><strong>2. Time Decay (Weight):</strong> Recent races matter more. A race finished today has a weight of <strong>1.00</strong>. After 12 months, its weight starts dropping. By month 36, its weight drops to around <strong>0.33</strong> before expiring.</li>
+                                <li><strong>3. Finding the Best Scenario:</strong> The algorithm tests 5 different scenarios (taking your best 1, 2, 3, 4, and 5 races). For each scenario, it multiplies the race score by its time decay weight, adds them up, and divides by the total weight.</li>
+                                <li><strong>4. The Final Score:</strong> Whichever of those 5 scenarios results in the highest average becomes your official Performance Index!</li>
+                            </ul>
+                            <p><em>Note: This is why running a bad race will never lower your PI. The algorithm simply won't include it in your "best scenario" if it brings the average down!</em></p>
+                        </div>
+                    </details>
+                </section>
+
                 </div> <!-- End pdf-content -->
                 
                 <div style="text-align: right; margin-top: 1.5rem; margin-bottom: 2rem;">
