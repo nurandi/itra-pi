@@ -90,8 +90,7 @@ function calculateItraPiCore(inputRaces, today = new Date()) {
             totalWxScore += wxScore;
 
             scenarioLog.push({
-                name: scenarioRaces[j].name,
-                date: scenarioRaces[j].date,
+                ...scenarioRaces[j],
                 wScore: wScore,
                 eWeight: eWeight,
                 wxScore: wxScore
@@ -228,6 +227,64 @@ function parseItraPaste(text) {
         let distMatch = chunk.find(l => /\d+(?:\.\d+)?\s*km/i.test(l));
         if (distMatch) {
             race.dist = distMatch.match(/(\d+(?:\.\d+)?)\s*km/i)[1] + ' km';
+        }
+        
+        // Parse Elevation
+        let elevMatch = chunk.find(l => /\b\d+\s*m\+/i.test(l));
+        if (elevMatch) {
+            race.elev = elevMatch.match(/(\d+)\s*m\+/i)[1] + ' m+';
+        } else {
+            race.elev = '-';
+        }
+        
+        // Parse Points
+        race.points = '';
+        let fullChunkText = chunk.join(' ');
+        let pointsMatch = fullChunkText.match(/Itra Point\s*(\d)/i);
+        if (pointsMatch) {
+            race.points = pointsMatch[1];
+        } else {
+            let mPlusMatch = fullChunkText.match(/\b\d+\s*m\+\s*([0-6])(?=\s|$)/i);
+            if (mPlusMatch) {
+                race.points = mPlusMatch[1];
+            } else {
+                let kmMatch = fullChunkText.match(/\d+(?:\.\d+)?\s*km(?:\s*\/)?\s*([0-6])(?=\s|$)/i);
+                if (kmMatch) {
+                    race.points = kmMatch[1];
+                }
+            }
+        }
+        
+        // Fallback: Calculate Points from Distance and Elevation if missing!
+        if (!race.points && race.dist !== '-' && race.elev !== '-') {
+            let km = parseFloat(race.dist);
+            let m = parseFloat(race.elev);
+            if (!isNaN(km) && !isNaN(m)) {
+                let effort = km + (m / 100);
+                if (effort >= 210) race.points = '6';
+                else if (effort >= 155) race.points = '5';
+                else if (effort >= 115) race.points = '4';
+                else if (effort >= 75) race.points = '3';
+                else if (effort >= 45) race.points = '2';
+                else if (effort >= 25) race.points = '1';
+                else race.points = '0';
+            }
+        }
+        
+        // Fallback: Calculate Points from Distance and Elevation if missing!
+        if (!race.points && race.dist !== '-' && race.elev !== '-') {
+            let km = parseFloat(race.dist);
+            let m = parseFloat(race.elev);
+            if (!isNaN(km) && !isNaN(m)) {
+                let effort = km + (m / 100);
+                if (effort >= 210) race.points = '6';
+                else if (effort >= 155) race.points = '5';
+                else if (effort >= 115) race.points = '4';
+                else if (effort >= 75) race.points = '3';
+                else if (effort >= 45) race.points = '2';
+                else if (effort >= 25) race.points = '1';
+                else race.points = '0';
+            }
         }
         
         return race;
@@ -430,7 +487,8 @@ function updateDashboard() {
             <tr style="background: #f0f0f0;">
                 <th style="text-align: left; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">DATE</th>
                 <th style="text-align: left; padding: 6px; border: 1px solid #ccc;">RACE NAME</th>
-                <th style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">DISTANCE</th>
+                <th style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">DIST.</th>
+                <th style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">ELEV.</th>
                 <th style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">TIME</th>
                 <th style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">SCORE</th>
             </tr>
@@ -438,14 +496,15 @@ function updateDashboard() {
         <tbody>
     `;
     if (races.length === 0) {
-        printHtml += `<tr><td colspan="5" style="text-align: center; padding: 6px; border: 1px solid #ccc;">No races recorded</td></tr>`;
+        printHtml += `<tr><td colspan="6" style="text-align: center; padding: 6px; border: 1px solid #ccc;">No races recorded</td></tr>`;
     } else {
         races.forEach(r => {
             printHtml += `
             <tr>
                 <td style="padding: 6px; border: 1px solid #ccc; white-space: nowrap;">${r.date}</td>
-                <td style="padding: 6px; border: 1px solid #ccc;">${r.name}</td>
+                <td style="padding: 6px; border: 1px solid #ccc;">${r.name} ${r.points ? `<span style="background: #ef6c00; color: white; padding: 2px 4px; border-radius: 4px; font-size: 0.7rem; margin-left: 4px; white-space: nowrap;">${r.points} PT</span>` : ''}</td>
                 <td style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">${r.dist || '-'}</td>
+                <td style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">${r.elev || '-'}</td>
                 <td style="text-align: right; padding: 6px; border: 1px solid #ccc; white-space: nowrap;">${r.time || '-'}</td>
                 <td style="text-align: right; padding: 6px; border: 1px solid #ccc; font-weight: bold; white-space: nowrap;">${r.score}</td>
             </tr>`;
@@ -488,7 +547,7 @@ function updateDashboard() {
                     tableHtml += `
                         <tr>
                             <td style="white-space: nowrap;">${r.date}</td>
-                            <td>${r.name}</td>
+                            <td>${r.name} ${r.points ? `<span style="background: var(--accent); color: white; padding: 2px 5px; border-radius: 4px; font-size: 0.75rem; margin-left: 6px; white-space: nowrap;">${r.points} PT</span>` : ''}</td>
                             <td>${r.wScore.toFixed(1)}</td>
                             <td>${r.eWeight.toFixed(2)}</td>
                             <td style="font-weight: bold; color: var(--text-main);">${r.wxScore.toFixed(1)}</td>
@@ -585,7 +644,7 @@ function runSimulation(currentResult, today) {
             tableHtml += `
                 <tr style="${rowStyle}">
                     <td style="white-space: nowrap;">${r.date}</td>
-                    <td>${r.name}</td>
+                    <td>${r.name} ${r.points ? `<span style="background: var(--accent); color: white; padding: 2px 5px; border-radius: 4px; font-size: 0.75rem; margin-left: 6px; white-space: nowrap;">${r.points} PT</span>` : ''}</td>
                     <td>${r.wScore.toFixed(1)}</td>
                     <td>${r.eWeight.toFixed(2)}</td>
                     <td style="font-weight: bold; color: ${finalColor};">${r.wxScore.toFixed(1)}</td>
