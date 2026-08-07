@@ -860,6 +860,10 @@ tr:last-child td {
     }
     .sim-box {
         border-left: 6px solid #000 !important;
+        page-break-inside: avoid !important;
+    }
+    .sim-table {
+        display: block !important;
     }
     .stat-value, .stat-label, th, td, .scenario-title, .scenario-score, h4, p, .big-number, .scenario-badge, #current-pi-value, .app-footer p {
         color: #000 !important;
