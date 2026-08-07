@@ -10,6 +10,7 @@ let runnerNationality = '';
 function getItraBadgeHtml(points) {
     if (!points) return '';
     let color = '#7d7d7d';
+    let text = points;
     switch(String(points)) {
         case '1': color = '#8cc63f'; break;
         case '2': color = '#cdd500'; break;
@@ -17,8 +18,9 @@ function getItraBadgeHtml(points) {
         case '4': color = '#ab6ba6'; break;
         case '5': color = '#df7329'; break;
         case '6': color = '#b7292b'; break;
+        case 'SIM': color = 'var(--accent)'; text = '🎯'; break;
     }
-    return `<span style="background: ${color}; color: white; padding: 1px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-right: 6px; display: inline-block; min-width: 12px; text-align: center;">${points}</span>`;
+    return `<span style="background: ${color}; color: white; padding: 1px 6px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; margin-right: 6px; display: inline-block; min-width: 12px; text-align: center;">${text}</span>`;
 }
 
 // ITRA Math Logic
@@ -623,7 +625,7 @@ function runSimulation(currentResult, today) {
     
     for (let s = minSim; s <= maxSim; s+=5) {
         plotX.push(s);
-        const testRaces = [...races, { date: newDate, name: "Next race (simulation)", score: s }];
+        const testRaces = [...races, { date: newDate, name: "Next race (simulation)", score: s, points: 'SIM' }];
         const res = calculateItraPiCore(testRaces, today);
         
         maxY.push(res.maxAverage);
