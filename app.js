@@ -828,6 +828,16 @@ function updateChart(labels, maxData, scenData, currentPI, targetPI) {
                 intersect: false,
             },
             plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(context) {
+                            if (context.length > 0) {
+                                return `Simulated Race Score: ${context[0].label}`;
+                            }
+                            return '';
+                        }
+                    }
+                },
                 legend: {
                     labels: { 
                         color: '#a1a1aa',
