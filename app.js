@@ -554,12 +554,12 @@ function updateDashboard() {
         let bestRacesHtml = '';
         result.top5.forEach(r => {
             bestRacesHtml += `
-                <tr style="border-bottom: 1px solid var(--border-color);">
-                    <td style="padding: 0.75rem 0.5rem; white-space: nowrap;">${r.date}</td>
-                    <td style="padding: 0.75rem 0.5rem;">${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
-                    <td style="padding: 0.75rem 0.5rem; text-align: right;">${r.score.toFixed ? r.score.toFixed(1) : r.score}</td>
-                    <td style="padding: 0.75rem 0.5rem; text-align: right;">${r.timeWeight.toFixed(3)}</td>
-                    <td style="padding: 0.75rem 0.5rem; text-align: right; font-weight: bold; color: var(--text-main);">${r.weightedScore.toFixed(1)}</td>
+                <tr>
+                    <td style="white-space: nowrap;">${r.date}</td>
+                    <td>${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
+                    <td style="text-align: right;">${r.score.toFixed ? r.score.toFixed(1) : r.score}</td>
+                    <td style="text-align: right;">${r.timeWeight.toFixed(3)}</td>
+                    <td style="text-align: right; font-weight: bold; color: var(--text-main);">${r.weightedScore.toFixed(1)}</td>
                 </tr>
             `;
         });
