@@ -604,6 +604,7 @@ a:hover {
     border-radius: 12px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
+    white-space: nowrap;
 }
 .athlete-name-tag {
     background-color: var(--accent);
