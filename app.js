@@ -768,7 +768,7 @@ function updateChart(labels, maxData, scenData, currentPI, targetPI) {
     
     const datasets = [
         {
-            label: 'Final PI (Max)',
+            label: 'Final PI',
             data: maxData,
             borderColor: 'rgba(113, 113, 122, 0.25)', // Semi-transparent Zinc 500
             borderWidth: 7, // Thicker halo effect
@@ -848,12 +848,12 @@ function updateChart(labels, maxData, scenData, currentPI, targetPI) {
             },
             scales: {
                 x: {
-                    title: { display: true, text: 'New Race Score', color: '#a1a1aa' },
+                    title: { display: true, text: 'Simulated race score', color: '#a1a1aa' },
                     grid: { color: '#27272a' },
                     ticks: { color: '#a1a1aa' }
                 },
                 y: {
-                    title: { display: true, text: 'Resulting Raw PI', color: '#a1a1aa' },
+                    title: { display: true, text: 'Weighted Score & Final PI', color: '#a1a1aa' },
                     grid: { color: '#27272a' },
                     ticks: { color: '#a1a1aa' }
                 }
