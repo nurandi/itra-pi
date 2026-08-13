@@ -201,10 +201,13 @@
                                     style="padding-left: 1.25rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
                                     <li><strong>The 36-Month Window:</strong> Only races finished within the last 36
                                         months are counted. Anything older expires and drops off completely.</li>
-                                    <li><strong>Time Weight:</strong> Recent races matter more. A race finished
-                                        today has a weight of <strong>1.00</strong>. After 12 months, its weight starts
-                                        dropping. By month 36, it drops to around <strong>0.33</strong> before
-                                        expiring. This is multiplied with the Race Score to calculate the <em>Weighted Score</em>.</li>
+                                    <li><strong>Time Weight:</strong> Recent races matter more. This is multiplied with the Race Score to calculate the <em>Weighted Score</em>. The calculation works as follows:
+                                        <ul style="padding-left: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem; list-style-type: circle; color: var(--text-main);">
+                                            <li><strong>0 to 12 Months:</strong> 100% value (Weight: <strong>1.00</strong>)</li>
+                                            <li><strong>13 to 36 Months:</strong> Value drops linearly. Formula: <code>1 - ((months_since_12 / 24) * 0.67)</code>. At exactly 36 months, the weight is <strong>0.33</strong>.</li>
+                                            <li><strong>Over 36 Months:</strong> Race expires (Weight: <strong>0.00</strong>)</li>
+                                        </ul>
+                                    </li>
                                     <li><strong>Scenario Weight:</strong> The algorithm tests 5 scenarios (using your best 1 to 5 races). Within each scenario, an additional weight is applied to each race based on its rank:
                                         <ul style="padding-left: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem; list-style-type: circle; color: var(--text-main);">
                                             <li><strong>Scenario 1:</strong> Race #1 (0.97)</li>
