@@ -592,13 +592,17 @@ function updateDashboard() {
                         </tr>
                     `;
                 });
-                tableHtml += `</table></div>`;
+                tableHtml += `
+                        <tr style="border-top: 1px solid var(--border-color); background: rgba(255,255,255,0.02);">
+                            <td colspan="4" style="text-align: right; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; padding-top: 0.75rem; padding-bottom: 0.75rem;">Average Score</td>
+                            <td style="font-weight: bold; color: var(--text-main); font-size: 1.1em; padding-top: 0.75rem; padding-bottom: 0.75rem;">${result.allAverages[i].toFixed(1)}</td>
+                        </tr>
+                    </table></div>`;
 
                 scenariosHtml += `
                     <details class="scenario-details-item" ${isBest ? 'open' : ''}>
                         <summary class="${isBest ? 'best-scenario-summary' : ''}">
-                            <span class="scenario-title">Scenario ${i} ${isBest ? '⭐ (BEST)' : ''}</span>
-                            <span class="scenario-score">${result.allAverages[i].toFixed(1)}</span>
+                            <span class="scenario-title" style="width: 100%;">Scenario ${i} ${isBest ? '⭐ (BEST)' : ''}</span>
                         </summary>
                         <div class="scenario-content">
                             ${tableHtml}
