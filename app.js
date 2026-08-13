@@ -677,19 +677,22 @@ function runSimulation(currentResult, today) {
     function buildSimTable(log) {
         let tableHtml = `<div class="top-races-table" style="overflow-x: auto; margin-top: 1rem;">
             <table>
-                <tr><th>RACE</th><th>WEIGHTED SCORE</th><th>SCENARIO WEIGHT</th><th>FINAL SCORE</th></tr>`;
+                <tr><th>RACE</th><th style="text-align: right;">SCORE</th><th style="text-align: right;">TIME WEIGHT</th><th style="text-align: right;">WEIGHTED SCORE</th><th style="text-align: right;">SCENARIO WEIGHT</th><th style="text-align: right;">FINAL SCORE</th></tr>`;
         log.forEach((r, idx) => {
             const isSim = r.name === "Next race (simulation)";
             const rowStyle = isSim ? 'color: var(--accent); font-weight: 500;' : '';
+            const scoreColor = isSim ? 'var(--accent)' : '';
             const finalColor = isSim ? 'var(--accent)' : 'var(--text-main)';
             const raceLabel = isSim ? 'Simulated Race' : `#${idx + 1}`;
             
             tableHtml += `
                 <tr style="${rowStyle}">
                     <td><span class="athlete-tag ${isSim ? 'athlete-name-tag' : ''}">${raceLabel}</span></td>
-                    <td>${r.wScore.toFixed(2)}</td>
-                    <td>${r.eWeight.toFixed(2)}</td>
-                    <td style="font-weight: bold; color: ${finalColor};">${r.wxScore.toFixed(2)}</td>
+                    <td style="text-align: right; color: ${scoreColor}; font-weight: ${isSim ? 'bold' : 'normal'};">${Math.round(r.score)}</td>
+                    <td style="text-align: right;">${r.timeWeight.toFixed(2)}</td>
+                    <td style="text-align: right;">${r.wScore.toFixed(2)}</td>
+                    <td style="text-align: right;">${r.eWeight.toFixed(2)}</td>
+                    <td style="font-weight: bold; color: ${finalColor}; text-align: right;">${r.wxScore.toFixed(2)}</td>
                 </tr>
             `;
         });
