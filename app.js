@@ -677,7 +677,7 @@ function runSimulation(currentResult, today) {
     function buildSimTable(log) {
         let tableHtml = `<div class="top-races-table" style="overflow-x: auto; margin-top: 1rem;">
             <table>
-                <tr><th>RACE</th><th style="text-align: right;">SCORE</th><th style="text-align: right;">TIME WEIGHT</th><th style="text-align: right;">WEIGHTED SCORE</th><th style="text-align: right;">SCENARIO WEIGHT</th><th style="text-align: right;">FINAL SCORE</th></tr>`;
+                <tr><th>RACE</th><th style="text-align: right;">RACE SCORE</th><th style="text-align: right;">TIME WEIGHT</th><th style="text-align: right;">WEIGHTED SCORE</th><th style="text-align: right;">SCENARIO WEIGHT</th><th style="text-align: right;">FINAL SCORE</th></tr>`;
         log.forEach((r, idx) => {
             const isSim = r.name === "Next race (simulation)";
             const rowStyle = isSim ? 'color: var(--accent); font-weight: 500;' : '';
