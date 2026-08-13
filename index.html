@@ -126,6 +126,30 @@
                         </div>
                     </section>
 
+                    <section class="card results-section card-collapsible" id="best-races-card" style="display: none;">
+                        <details open>
+                            <summary>
+                                <h2>Best 5 Races Calculation Detail</h2>
+                            </summary>
+                            <div class="table-container" style="overflow-x: auto; margin-top: 1rem;">
+                                <table class="detail-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem;">
+                                    <thead>
+                                        <tr style="border-bottom: 1px solid var(--border-color);">
+                                            <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600;">Race Date</th>
+                                            <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600;">Race Detail</th>
+                                            <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600; text-align: right;">Race Score</th>
+                                            <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600; text-align: right;">Time Weight</th>
+                                            <th style="padding: 0.75rem 0.5rem; color: var(--text-muted); font-weight: 600; text-align: right;">Weighted Score</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="best-races-tbody">
+                                        <!-- Populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </details>
+                    </section>
+
                     <section class="card results-section card-collapsible">
                         <details open>
                             <summary>

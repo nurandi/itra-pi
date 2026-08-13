@@ -148,6 +148,8 @@ const currentRawValue = document.getElementById('current-raw-value');
 const currentScenarioEl = document.getElementById('current-scenario-value');
 const piLevelEl = document.getElementById('current-pi-level');
 const allScenariosContainer = document.getElementById('all-scenarios-container');
+const bestRacesTbody = document.getElementById('best-races-tbody');
+const bestRacesCard = document.getElementById('best-races-card');
 const targetPiInput = document.getElementById('target-pi-input');
 const simulationResultsEl = document.getElementById('simulation-results');
 const ctx = document.getElementById('simulationChart').getContext('2d');
@@ -544,6 +546,27 @@ function updateDashboard() {
     } else {
         piLevelEl.textContent = '-';
         piLevelEl.style.color = 'var(--text-main)';
+    }
+
+    // Render best 5 races detail table
+    if (result.top5 && result.top5.length > 0) {
+        bestRacesCard.style.display = 'block';
+        let bestRacesHtml = '';
+        result.top5.forEach(r => {
+            bestRacesHtml += `
+                <tr style="border-bottom: 1px solid var(--border-color);">
+                    <td style="padding: 0.75rem 0.5rem; white-space: nowrap;">${r.date}</td>
+                    <td style="padding: 0.75rem 0.5rem;">${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
+                    <td style="padding: 0.75rem 0.5rem; text-align: right;">${r.score.toFixed ? r.score.toFixed(1) : r.score}</td>
+                    <td style="padding: 0.75rem 0.5rem; text-align: right;">${r.timeWeight.toFixed(3)}</td>
+                    <td style="padding: 0.75rem 0.5rem; text-align: right; font-weight: bold; color: var(--text-main);">${r.weightedScore.toFixed(1)}</td>
+                </tr>
+            `;
+        });
+        bestRacesTbody.innerHTML = bestRacesHtml;
+    } else {
+        bestRacesCard.style.display = 'none';
+        bestRacesTbody.innerHTML = '';
     }
     
     // Render all scenarios list as expandable accordions
