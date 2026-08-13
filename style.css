@@ -633,6 +633,7 @@ a:hover {
 /* Tables */
 table {
     width: 100%;
+    min-width: 550px;
     border-collapse: collapse;
     font-size: 13px;
 }
