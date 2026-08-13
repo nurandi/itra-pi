@@ -579,7 +579,7 @@ function updateDashboard() {
                 
                 let tableHtml = `<div class="top-races-table" style="overflow-x: auto; margin-top: 1rem;">
                     <table>
-                        <tr><th style="white-space: nowrap;">DATE</th><th>NAME</th><th>W. SCORE</th><th>WEIGHT</th><th>FINAL SCORE</th></tr>`;
+                        <tr><th style="white-space: nowrap;">DATE</th><th>NAME</th><th>WEIGHTED SCORE</th><th>SCENARIO WEIGHT</th><th>FINAL SCORE</th></tr>`;
                 
                 log.forEach((r) => {
                     tableHtml += `
@@ -673,7 +673,7 @@ function runSimulation(currentResult, today) {
     function buildSimTable(log) {
         let tableHtml = `<div class="top-races-table" style="overflow-x: auto; margin-top: 1rem;">
             <table>
-                <tr><th style="white-space: nowrap;">DATE</th><th>NAME</th><th>W. SCORE</th><th>WEIGHT</th><th>FINAL SCORE</th></tr>`;
+                <tr><th style="white-space: nowrap;">DATE</th><th>NAME</th><th>WEIGHTED SCORE</th><th>SCENARIO WEIGHT</th><th>FINAL SCORE</th></tr>`;
         log.forEach((r) => {
             const isSim = r.name === "Next race (simulation)";
             const rowStyle = isSim ? 'color: var(--accent); font-weight: 500;' : '';
