@@ -555,7 +555,7 @@ function updateDashboard() {
         result.top5.forEach(r => {
             bestRacesHtml += `
                 <tr>
-                    <td style="font-weight: bold; color: var(--text-muted);">#${result.top5.indexOf(r) + 1}</td>
+                    <td><span class="athlete-tag">#${result.top5.indexOf(r) + 1}</span></td>
                     <td style="white-space: nowrap;">${r.date}</td>
                     <td>${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
                     <td style="text-align: right;">${Math.round(r.score)}</td>
