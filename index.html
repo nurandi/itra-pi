@@ -203,9 +203,12 @@
                                         months are counted. Anything older expires and drops off completely.</li>
                                     <li><strong>Time Weight:</strong> Recent races matter more. This is multiplied with the Race Score to calculate the <em>Weighted Score</em>. The calculation works as follows:
                                         <ul style="padding-left: 1.25rem; margin-top: 0.5rem; margin-bottom: 0.5rem; list-style-type: circle; color: var(--text-main);">
-                                            <li><strong>0 to 12 Months:</strong> 100% value (Weight: <strong>1.00</strong>)</li>
-                                            <li><strong>13 to 36 Months:</strong> Value drops linearly. Formula: <code>1 - ((months_since_12 / 24) * 0.67)</code>. At exactly 36 months, the weight is <strong>0.33</strong>.</li>
-                                            <li><strong>Over 36 Months:</strong> Race expires (Weight: <strong>0.00</strong>)</li>
+                                            <li><strong>0-11 months:</strong> 1.000</li>
+                                            <li><strong>12-17 months:</strong> 0.995</li>
+                                            <li><strong>18-23 months:</strong> 0.990</li>
+                                            <li><strong>24-29 months:</strong> 0.985</li>
+                                            <li><strong>30-35 months:</strong> 0.980</li>
+                                            <li><strong>36+ months:</strong> Race expires (Weight: 0.000)</li>
                                         </ul>
                                     </li>
                                     <li><strong>Scenario Weight:</strong> The algorithm tests 5 scenarios (using your best 1 to 5 races). Within each scenario, an additional weight is applied to each race based on its rank:
