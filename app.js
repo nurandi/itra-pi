@@ -555,6 +555,7 @@ function updateDashboard() {
         result.top5.forEach(r => {
             bestRacesHtml += `
                 <tr>
+                    <td style="font-weight: bold; color: var(--text-muted);">#${result.top5.indexOf(r) + 1}</td>
                     <td style="white-space: nowrap;">${r.date}</td>
                     <td>${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
                     <td style="text-align: right;">${Math.round(r.score)}</td>
@@ -579,13 +580,12 @@ function updateDashboard() {
                 
                 let tableHtml = `<div class="top-races-table" style="overflow-x: auto; margin-top: 1rem;">
                     <table>
-                        <tr><th style="white-space: nowrap;">DATE</th><th>NAME</th><th>WEIGHTED SCORE</th><th>SCENARIO WEIGHT</th><th>FINAL SCORE</th></tr>`;
+                        <tr><th>RACE</th><th>WEIGHTED SCORE</th><th>SCENARIO WEIGHT</th><th>FINAL SCORE</th></tr>`;
                 
-                log.forEach((r) => {
+                log.forEach((r, idx) => {
                     tableHtml += `
                         <tr>
-                            <td style="white-space: nowrap;">${r.date}</td>
-                            <td>${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
+                            <td><span class="athlete-tag">#${idx + 1}</span></td>
                             <td>${r.wScore.toFixed(2)}</td>
                             <td>${r.eWeight.toFixed(2)}</td>
                             <td style="font-weight: bold; color: var(--text-main);">${r.wxScore.toFixed(2)}</td>
@@ -594,7 +594,7 @@ function updateDashboard() {
                 });
                 tableHtml += `
                         <tr style="border-top: 1px solid var(--border-color); background: rgba(255,255,255,0.02);">
-                            <td colspan="4" style="text-align: right; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; padding-top: 0.75rem; padding-bottom: 0.75rem;">Average Score</td>
+                            <td colspan="3" style="text-align: right; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; padding-top: 0.75rem; padding-bottom: 0.75rem;">Average Score</td>
                             <td style="font-weight: bold; color: ${isBest ? 'var(--accent)' : 'var(--text-main)'}; font-size: 1.1em; padding-top: 0.75rem; padding-bottom: 0.75rem;">${result.allAverages[i].toFixed(2)}</td>
                         </tr>
                     </table></div>`;
@@ -677,16 +677,16 @@ function runSimulation(currentResult, today) {
     function buildSimTable(log) {
         let tableHtml = `<div class="top-races-table" style="overflow-x: auto; margin-top: 1rem;">
             <table>
-                <tr><th style="white-space: nowrap;">DATE</th><th>NAME</th><th>WEIGHTED SCORE</th><th>SCENARIO WEIGHT</th><th>FINAL SCORE</th></tr>`;
-        log.forEach((r) => {
+                <tr><th>RACE</th><th>WEIGHTED SCORE</th><th>SCENARIO WEIGHT</th><th>FINAL SCORE</th></tr>`;
+        log.forEach((r, idx) => {
             const isSim = r.name === "Next race (simulation)";
             const rowStyle = isSim ? 'color: var(--accent); font-weight: 500;' : '';
             const finalColor = isSim ? 'var(--accent)' : 'var(--text-main)';
+            const raceLabel = isSim ? 'Simulated Race' : `#${idx + 1}`;
             
             tableHtml += `
                 <tr style="${rowStyle}">
-                    <td style="white-space: nowrap;">${r.date}</td>
-                    <td>${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
+                    <td><span class="athlete-tag ${isSim ? 'athlete-name-tag' : ''}">${raceLabel}</span></td>
                     <td>${r.wScore.toFixed(2)}</td>
                     <td>${r.eWeight.toFixed(2)}</td>
                     <td style="font-weight: bold; color: ${finalColor};">${r.wxScore.toFixed(2)}</td>
