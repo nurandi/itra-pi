@@ -201,16 +201,12 @@
                                     style="padding-left: 1.25rem; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
                                     <li><strong>The 36-Month Window:</strong> Only races finished within the last 36
                                         months are counted. Anything older expires and drops off completely.</li>
-                                    <li><strong>Time Decay (Weight):</strong> Recent races matter more. A race finished
+                                    <li><strong>Time Weight:</strong> Recent races matter more. A race finished
                                         today has a weight of <strong>1.00</strong>. After 12 months, its weight starts
-                                        dropping. By month 36, its weight drops to around <strong>0.33</strong> before
-                                        expiring.</li>
-                                    <li><strong>Finding the Best Scenario:</strong> The algorithm tests 5 different
-                                        scenarios (taking your best 1, 2, 3, 4, and 5 races). For each scenario, it
-                                        multiplies the race score by its time decay weight, adds them up, and divides by
-                                        the total weight.</li>
-                                    <li><strong>The Final Score:</strong> Whichever of those 5 scenarios results in the
-                                        highest average becomes your official Performance Index!</li>
+                                        dropping. By month 36, it drops to around <strong>0.33</strong> before
+                                        expiring. This is multiplied with the Race Score to calculate the <em>Weighted Score</em>.</li>
+                                    <li><strong>Scenario Weight:</strong> The algorithm tests 5 scenarios (using your best 1, 2, 3, 4, and 5 races). Within each scenario, an additional weight is applied to each race based on its rank (e.g., Scenario 1 applies a 0.97 weight, while Scenario 2 applies 0.99 and 0.98).</li>
+                                    <li><strong>The Final Score:</strong> For each scenario, it multiplies the <em>Weighted Score</em> by the <em>Scenario Weight</em> to get the <em>Final Score</em>, then calculates the average. The scenario with the highest average becomes your official Performance Index!</li>
                                 </ul>
                                 <p><em>Note: This is why running a bad race will never lower your PI. The algorithm
                                         simply won't include it in your "best scenario" if it brings the average

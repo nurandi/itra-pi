@@ -880,6 +880,7 @@ tr:last-child td {
     }
     table {
         border-collapse: collapse !important;
+        width: 100% !important;
     }
     th, td {
         border: 1px solid #ccc !important;
