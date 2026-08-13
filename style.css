@@ -881,6 +881,13 @@ tr:last-child td {
     table {
         border-collapse: collapse !important;
         width: 100% !important;
+        table-layout: fixed !important;
+    }
+    .top-races-table {
+        overflow: visible !important;
+        overflow-x: visible !important;
+        width: 100% !important;
+        display: block !important;
     }
     th, td {
         border: 1px solid #ccc !important;
