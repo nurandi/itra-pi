@@ -68,7 +68,7 @@ function calculateItraPiCore(inputRaces, today = new Date()) {
 
     for (let race of validRaces) {
         let tw = getTimeWeight(race.monthsAgo);
-        let ws = roundHalfUp(race.score * tw, 1);
+        let ws = roundHalfUp(race.score * tw, 2);
         race.timeWeight = tw;
         race.weightedScore = ws;
     }
@@ -101,7 +101,7 @@ function calculateItraPiCore(inputRaces, today = new Date()) {
         for (let j = 0; j < i; j++) {
             let wScore = scenarioRaces[j].weightedScore;
             let eWeight = weights[j];
-            let wxScore = roundHalfUp(wScore * eWeight, 1);
+            let wxScore = roundHalfUp(wScore * eWeight, 2);
             totalWxScore += wxScore;
 
             scenarioLog.push({
@@ -112,7 +112,7 @@ function calculateItraPiCore(inputRaces, today = new Date()) {
             });
         }
 
-        let avg = roundHalfUp(totalWxScore / i, 1);
+        let avg = roundHalfUp(totalWxScore / i, 2);
         allAverages[i] = avg;
         allScenarioLogs[i] = scenarioLog; // Save log for every scenario
 
@@ -557,9 +557,9 @@ function updateDashboard() {
                 <tr>
                     <td style="white-space: nowrap;">${r.date}</td>
                     <td>${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
-                    <td style="text-align: right;">${r.score.toFixed ? r.score.toFixed(1) : r.score}</td>
-                    <td style="text-align: right;">${r.timeWeight.toFixed(3)}</td>
-                    <td style="text-align: right; font-weight: bold; color: var(--text-main);">${r.weightedScore.toFixed(1)}</td>
+                    <td style="text-align: right;">${Math.round(r.score)}</td>
+                    <td style="text-align: right;">${r.timeWeight.toFixed(2)}</td>
+                    <td style="text-align: right; font-weight: bold; color: var(--text-main);">${r.weightedScore.toFixed(2)}</td>
                 </tr>
             `;
         });
@@ -586,16 +586,16 @@ function updateDashboard() {
                         <tr>
                             <td style="white-space: nowrap;">${r.date}</td>
                             <td>${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
-                            <td>${r.wScore.toFixed(1)}</td>
+                            <td>${r.wScore.toFixed(2)}</td>
                             <td>${r.eWeight.toFixed(2)}</td>
-                            <td style="font-weight: bold; color: var(--text-main);">${r.wxScore.toFixed(1)}</td>
+                            <td style="font-weight: bold; color: var(--text-main);">${r.wxScore.toFixed(2)}</td>
                         </tr>
                     `;
                 });
                 tableHtml += `
                         <tr style="border-top: 1px solid var(--border-color); background: rgba(255,255,255,0.02);">
                             <td colspan="4" style="text-align: right; font-weight: 600; font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; padding-top: 0.75rem; padding-bottom: 0.75rem;">Average Score</td>
-                            <td style="font-weight: bold; color: ${isBest ? 'var(--accent)' : 'var(--text-main)'}; font-size: 1.1em; padding-top: 0.75rem; padding-bottom: 0.75rem;">${result.allAverages[i].toFixed(1)}</td>
+                            <td style="font-weight: bold; color: ${isBest ? 'var(--accent)' : 'var(--text-main)'}; font-size: 1.1em; padding-top: 0.75rem; padding-bottom: 0.75rem;">${result.allAverages[i].toFixed(2)}</td>
                         </tr>
                     </table></div>`;
 
@@ -687,9 +687,9 @@ function runSimulation(currentResult, today) {
                 <tr style="${rowStyle}">
                     <td style="white-space: nowrap;">${r.date}</td>
                     <td>${r.points ? getItraBadgeHtml(r.points) : ''}${r.name}</td>
-                    <td>${r.wScore.toFixed(1)}</td>
+                    <td>${r.wScore.toFixed(2)}</td>
                     <td>${r.eWeight.toFixed(2)}</td>
-                    <td style="font-weight: bold; color: ${finalColor};">${r.wxScore.toFixed(1)}</td>
+                    <td style="font-weight: bold; color: ${finalColor};">${r.wxScore.toFixed(2)}</td>
                 </tr>
             `;
         });
